@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Checkin" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Background color for the whole application -->
+        <item name="android:colorBackground">@color/gray_strong</item>
+
+        <!-- Customize colors for the status bar and system UI -->
+        <item name="android:statusBarColor">@color/gray_strong</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="android:textColor">@color/white_900</item>
+        <item name="android:textColorPrimary">@color/white_700</item>
+        <item name="android:textColorSecondary">@color/white_500</item>
+
+    </style>
+    <!-- Estilo para los ítems de BottomNavigationView -->
+    <style name="BottomNavigationViewStyle" parent="Widget.Design.BottomNavigationView">
+
+        <item name="itemIconTint">@color/nav_item_color_selector</item>
+        <item name="itemTextColor">@color/nav_item_color_selector</item>
+        <item name="android:background">@color/gray_soft</item>
+        <item name="itemBackground">@android:color/transparent</item> <!-- Fondo transparente -->
+    </style>
+    <style name="Theme.Checkin" parent="Base.Theme.Checkin" />
+</resources>

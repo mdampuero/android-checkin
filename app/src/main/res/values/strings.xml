@@ -1,0 +1,11 @@
+<resources>
+    <string name="APP_NAME">Checkin</string>
+    <string name="SCAN_TO_CODE">Escanee el código</string>
+    <string name="SCAN">Escaner</string>
+    <string name="CHECKINS">Check-ins</string>
+    <string name="SETTING">Configuración</string>
+    <string name="SEARCH_FOR_ID">Buscar por documento</string>
+    <string name="SEARCH">Buscar</string>
+    <string name="RUT_INVALID">El RUT ingresado no es válido</string>
+    <string name="STRING_INVALID">El código leído no es compatible</string>
+</resources>
