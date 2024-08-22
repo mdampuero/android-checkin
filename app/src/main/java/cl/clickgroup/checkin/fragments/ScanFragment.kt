@@ -2,7 +2,7 @@ package cl.clickgroup.checkin.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +10,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
+import cl.clickgroup.checkin.data.repositories.PersonRepository
+import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.utils.RutValidatorUtils
 import cl.clickgroup.checkin.utils.ToastUtils
 
 class ScanFragment : Fragment() {
+
+    private lateinit var personRepository: PersonRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,8 +40,15 @@ class ScanFragment : Fragment() {
         btSearch.setOnClickListener {
             handleEnterAction(requireContext(), etIdentification)
         }
-    }
 
+
+        /*  val persons = personRepository.getAllPersons()
+
+          // Mostrar los resultados en el Logcat o usarlos en la UI
+          for (per in persons) {
+              Log.d("ScanFragment", "Persona: ${per.first_name} ${per.last_name}, ID: ${per.id}")
+          }*/
+    }
 
     fun EditText.setupEnterKeyListener(context: Context) {
         this.setOnKeyListener { v, keyCode, event ->
@@ -59,30 +69,34 @@ class ScanFragment : Fragment() {
         when (editText.id) {
             R.id.ET_resultScan -> {
                 rut = RutValidatorUtils.extractRut(inputText)
-                if(rut.isNullOrBlank()){
-                    ToastUtils.showCenteredToast(context, context.getString(R.string.STRING_INVALID))
-                    return
-                }
-                if (!RutValidatorUtils.isValidRut(rut)) {
-                    ToastUtils.showCenteredToast(context, context.getString(R.string.RUT_INVALID))
+                if (rut.isNullOrBlank()) {
+                    ToastUtils.showCenteredToast(
+                        context,
+                        context.getString(R.string.STRING_INVALID)
+                    )
                     return
                 }
             }
+
             R.id.ET_identification -> {
-                if (!RutValidatorUtils.isValidRut(inputText)) {
-                    ToastUtils.showCenteredToast(context, context.getString(R.string.RUT_INVALID))
-                    return
-                }
+                rut = inputText
             }
         }
+
+        if (!RutValidatorUtils.isValidRut(rut.toString())) {
+            ToastUtils.showCenteredToast(context, context.getString(R.string.RUT_INVALID))
+            return
+        }
+
+        checkInByRut(rut.toString())
 
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)
 
     }
 
-    fun sendRutApi(rut:String){
-
+    fun checkInByRut(rut: String) {
+        Log.d("ScanFragment", "RUT: ${rut}")
     }
 
     // Crear el objeto de la solicitud

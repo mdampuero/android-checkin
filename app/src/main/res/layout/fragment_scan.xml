@@ -50,6 +50,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:hint="https://..."
+                    android:text="@string/EXAMPLE_URL"
                     android:singleLine="true"
                     android:textColorHint="@color/white_300"></EditText>
             </LinearLayout>
@@ -86,6 +87,7 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:text="@string/EXAMPLE_RUT"
                         android:id="@+id/ET_identification"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -100,7 +102,7 @@
                         android:padding="0dp"
                         android:layout_height="36dp"
                         android:text="@string/SEARCH"
-                        android:background="@color/orange"
+                        android:background="@color/pink"
                         android:layout_weight="0.3">
 
                     </androidx.appcompat.widget.AppCompatButton>

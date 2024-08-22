@@ -6,8 +6,8 @@
         android:title="@string/SCAN"/>
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/ic_receipt_solid"
-        android:title="@string/CHECKINS" />
+        android:icon="@drawable/ic_participants"
+        android:title="@string/REGISTRANTS" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_sliders_solid"

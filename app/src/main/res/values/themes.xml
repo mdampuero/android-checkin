@@ -21,4 +21,5 @@
         <item name="itemBackground">@android:color/transparent</item> <!-- Fondo transparente -->
     </style>
     <style name="Theme.Checkin" parent="Base.Theme.Checkin" />
+    
 </resources>

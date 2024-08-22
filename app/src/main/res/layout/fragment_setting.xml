@@ -18,5 +18,95 @@
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/SETTING"></TextView>
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:id="@+id/LL_changeCode"
+            app:layout_constraintTop_toBottomOf="@id/scan_title"
+            android:orientation="horizontal"
+            android:background="@color/gray_soft"
+            android:layout_height="wrap_content">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="0dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/TV_eventCode"
+                    android:text="@string/CLEAR_EVENT_CODE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/TV_eventCodeValue"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/white_500" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/BT_changeCode"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                app:layout_constraintTop_toBottomOf="@id/scan_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/pink"
+                android:padding="0dp"
+                android:text="@string/OK">
+            </androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_marginTop="2dp"
+            android:id="@+id/LL_clearDatabase"
+            app:layout_constraintTop_toBottomOf="@id/LL_changeCode"
+            android:orientation="horizontal"
+            android:background="@color/gray_soft"
+            android:layout_height="wrap_content">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/TV_clearDatabase"
+                    android:text="@string/CLEAR_DATABASE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/white" />
+                <TextView
+                    android:id="@+id/TV_clearDatabaseValue"
+                    android:text="@string/CLEAR_DATABASE_DESCRIPTION"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/white_500" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/BT_clearDatabase"
+                android:layout_width="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0.2"
+                app:layout_constraintTop_toBottomOf="@id/scan_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_height="match_parent"
+                android:background="@color/pink"
+                android:padding="0dp"
+                android:text="@string/OK">
+            </androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
