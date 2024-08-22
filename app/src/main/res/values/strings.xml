@@ -34,5 +34,5 @@
     <string name="CLEAR_EVENT_CODE">Eliminar el código de Evento</string>
     <string name="SEARCH_HINT">Buscar...</string>
     <string name="EXAMPLE_RUT">26002138-9</string>
-    <string name="EXAMPLE_URL">httpsÑ--portal.sidiv.registrocivil.cl docstatus_RUN/17703992'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
+    <string name="EXAMPLE_URL">httpsÑ--portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
 </resources>
