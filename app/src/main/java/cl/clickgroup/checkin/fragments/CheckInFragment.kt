@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.clickgroup.checkin.R
@@ -21,10 +22,17 @@ import cl.clickgroup.checkin.adapters.PersonAdapter
 import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
 import cl.clickgroup.checkin.network.RetrofitClient
+import cl.clickgroup.checkin.network.requests.CheckInByRegistrantIDsRequest
+import cl.clickgroup.checkin.network.requests.CheckInByRutRequest
+import cl.clickgroup.checkin.network.responses.CheckInByRegistrantIDsResponse
+import cl.clickgroup.checkin.network.responses.CheckInByRutResponse
 import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
 import cl.clickgroup.checkin.network.responses.Person
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 
@@ -38,6 +46,7 @@ class CheckInFragment : Fragment() {
     private lateinit var searchInput: EditText
     private var allPersons: List<PersonDB> = emptyList()
     private var needSync: Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,7 +104,8 @@ class CheckInFragment : Fragment() {
         progressText.visibility = View.VISIBLE
         val integrationId = SharedPreferencesUtils.getData(requireContext(), "integration_id")
         val sessionID = SharedPreferencesUtils.getData(requireContext(), "session_id")
-        val call = RetrofitClient.apiService.getRegistrant(integrationId.toString(),sessionID.toString())
+        val registrantIDs = personRepository.getAllExternalIdsWhereScannedIsApp()
+        val call = RetrofitClient.apiService.getRegistrant(integrationId.toString(),sessionID.toString(), CheckInByRegistrantIDsRequest(registrantIDs))
         call.enqueue(object : retrofit2.Callback<IntegrationsRegistrantsResponse> {
             override fun onResponse(
                 call: Call<IntegrationsRegistrantsResponse>,
@@ -111,7 +121,7 @@ class CheckInFragment : Fragment() {
                             requireContext().getString(R.string.SERVICE_RESPONSE_FAIL)
                         )
                     } else {
-                        sync(response.body()?.data ?: emptyList())
+                        syncByServer(response.body()?.data ?: emptyList())
                     }
                 } catch (e: Exception) {
                     Log.d("CheckInFragment", "${getString(R.string.SYNC_FAIL)} : ${e.message}")
@@ -136,7 +146,8 @@ class CheckInFragment : Fragment() {
         })
     }
 
-    private fun sync(persons: List<Person>) {
+
+    private fun syncByServer(persons: List<Person>) {
         try {
             val existingPersons = personRepository.getAllPersons()
             val existingPersonIds = existingPersons.map { it.external_id }.toSet()
@@ -153,20 +164,23 @@ class CheckInFragment : Fragment() {
                     personRepository.insertPerson(personDB)
                 }else{
                     /**
-                     * Esto actualiza priorizando el server
+                     * Update if checkin in SERVER
                       */
-                   /* val existingPerson = personRepository.getPersonByExternalId(personApi.id)
-                    val personDB = PersonDB(
-                        id = existingPerson?.id ?: 0,
-                        first_name = personApi.first_name,
-                        last_name = personApi.last_name,
-                        email = personApi.email,
-                        external_id = personApi.id,
-                        rut = personApi.rut,
-                        scanned = personApi.scanned
-                    )
-                    personRepository.updatePerson(personDB)
-                    */
+                    val personDB = personRepository.getPersonByExternalId(personApi.id)
+                    if (personDB != null) {
+                        if (personApi.scanned != personDB.scanned) {
+                            val personDBUpdate = PersonDB(
+                                id = personDB?.id ?: 0,
+                                first_name = personApi.first_name,
+                                last_name = personApi.last_name,
+                                email = personApi.email,
+                                external_id = personApi.id,
+                                rut = personApi.rut,
+                                scanned = personApi.scanned
+                            )
+                            personRepository.updatePerson(personDBUpdate)
+                        }
+                    }
                 }
             }
             showList()

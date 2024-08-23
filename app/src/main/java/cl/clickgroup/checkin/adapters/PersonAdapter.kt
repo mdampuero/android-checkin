@@ -10,12 +10,14 @@ import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.data.repositories.PersonDB
 
 class PersonAdapter(private var personList: List<PersonDB>) :
+
     RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
 
     class PersonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvName: TextView = itemView.findViewById(R.id.TV_fullName)
         val tvRut: TextView = itemView.findViewById(R.id.TV_rut)
         val ivCheckIn: ImageView = itemView.findViewById(R.id.IV_checkin)
+        val ivCheckInLocal: ImageView = itemView.findViewById(R.id.IV_checkinLocal)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
@@ -29,9 +31,16 @@ class PersonAdapter(private var personList: List<PersonDB>) :
         holder.tvName.text = "${person.first_name} ${person.last_name}"
         holder.tvRut.text = person.rut
         if(!person.scanned.isNullOrEmpty()){
-            holder.ivCheckIn.visibility = View.VISIBLE
+            if(person.scanned == "SERVER"){
+                holder.ivCheckIn.visibility = View.VISIBLE
+                holder.ivCheckInLocal.visibility = View.GONE
+            }else{
+                holder.ivCheckIn.visibility = View.GONE
+                holder.ivCheckInLocal.visibility = View.VISIBLE
+            }
         }else{
             holder.ivCheckIn.visibility = View.GONE
+            holder.ivCheckInLocal.visibility = View.GONE
         }
     }
 

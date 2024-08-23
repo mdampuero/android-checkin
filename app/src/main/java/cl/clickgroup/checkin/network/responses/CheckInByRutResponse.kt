@@ -12,7 +12,7 @@ data class ErrorData(
     val errors: List<ErrorDetail>
 )
 
-data class SessionsPostResponse(
+data class CheckInByRutResponse(
     val result: Boolean,
     val data: Any
 )

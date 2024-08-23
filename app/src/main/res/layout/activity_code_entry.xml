@@ -53,6 +53,8 @@
             android:layout_height="wrap_content"
             android:hint="Enter 6-digit code"
             android:inputType="number"
+            android:singleLine="true"
+            android:maxLines="1"
             android:maxLength="7"
             android:textAlignment="center"
             android:gravity="center"

@@ -1,10 +1,13 @@
 <resources>
+    <string name="EXAMPLE_RUT">26002138-9</string>
+    <string name="EXAMPLE_URL">httpsÑ--portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
+
     <string name="APP_NAME">Clickgroup</string>
     <string name="SCAN_TO_CODE">Escanee el código</string>
     <string name="SCAN">Escaner</string>
     <string name="REGISTRANTS">Participantes</string>
     <string name="SETTING">Configuración</string>
-    <string name="SEARCH_FOR_ID">Buscar por documento</string>
+    <string name="SEARCH_FOR_ID">Buscar por RUT</string>
     <string name="SEARCH">Buscar</string>
     <string name="RUT_INVALID">El RUT ingresado no es válido</string>
     <string name="STRING_INVALID">El código leído no es compatible</string>
@@ -33,6 +36,8 @@
     <string name="CONFIRMATION_MESSAGE_CLEAR_CODE">¿Está seguro que desea eliminar el código y la base de datos local?</string>
     <string name="CLEAR_EVENT_CODE">Eliminar el código de Evento</string>
     <string name="SEARCH_HINT">Buscar...</string>
-    <string name="EXAMPLE_RUT">26002138-9</string>
-    <string name="EXAMPLE_URL">httpsÑ--portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
+    <string name="CHECKIN_SUCCESS">Check-in exitoso</string>
+    <string name="CHECKIN_EXIST">Este usuario ya ha hecho check-in</string>
+    <string name="ACCEPT">Aceptar</string>
+    <string name="PERSON_NOT_FOUND">No se encontró ninguna persona con ese RUT.</string>
 </resources>

@@ -10,17 +10,29 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.data.repositories.PersonRepository
-import cl.clickgroup.checkin.data.repositories.PersonDB
+import cl.clickgroup.checkin.network.RetrofitClient.apiService
+import cl.clickgroup.checkin.network.requests.CheckInByRegistrantRequest
+import cl.clickgroup.checkin.network.requests.CheckInByRutRequest
+import cl.clickgroup.checkin.network.responses.CheckInByRegistrantResponse
+import cl.clickgroup.checkin.network.responses.CheckInByRutResponse
+import cl.clickgroup.checkin.utils.DialogUtils
 import cl.clickgroup.checkin.utils.RutValidatorUtils
+import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import retrofit2.Call
+import retrofit2.Response
+
 
 class ScanFragment : Fragment() {
 
     private lateinit var personRepository: PersonRepository
-
+    private lateinit var progressBar: ProgressBar
+    private lateinit var progressText: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,14 +53,8 @@ class ScanFragment : Fragment() {
             handleEnterAction(requireContext(), etIdentification)
         }
 
-
-        /*  val persons = personRepository.getAllPersons()
-
-          // Mostrar los resultados en el Logcat o usarlos en la UI
-          for (per in persons) {
-              Log.d("ScanFragment", "Persona: ${per.first_name} ${per.last_name}, ID: ${per.id}")
-          }*/
     }
+
 
     fun EditText.setupEnterKeyListener(context: Context) {
         this.setOnKeyListener { v, keyCode, event ->
@@ -96,31 +102,50 @@ class ScanFragment : Fragment() {
     }
 
     fun checkInByRut(rut: String) {
-        Log.d("ScanFragment", "RUT: ${rut}")
+        personRepository = PersonRepository(requireContext())
+        val person = personRepository.getPersonByRut(rut)
+        if (person != null) {
+            Log.d("ScanFragment", "Persona encontrada: ${person.external_id}")
+            if(person.scanned.isNullOrEmpty()){
+                syncCheckIn(rut)
+                DialogUtils.showCustomDialog(requireContext(), "success", this.getString(R.string.CHECKIN_SUCCESS))
+            }else{
+                DialogUtils.showCustomDialog(requireContext(), "error", this.getString(R.string.CHECKIN_EXIST))
+            }
+        } else {
+            DialogUtils.showCustomDialog(requireContext(), "warning", this.getString(R.string.PERSON_NOT_FOUND))
+            Log.d("ScanFragment", "Persona no encontrada con el RUT: $rut")
+        }
+
     }
 
-    // Crear el objeto de la solicitud
-    /* val request = InputRequest(inputText)
+    private fun syncCheckIn(rut:String) {
+        val sessionID = SharedPreferencesUtils.getData(requireContext(), "session_id")
+        val eventID = SharedPreferencesUtils.getData(requireContext(), "event_id")
+        val call: Call<CheckInByRutResponse> = apiService.checkInByRut(CheckInByRutRequest(eventID, sessionID, rut))
+        call.enqueue(object : retrofit2.Callback<CheckInByRutResponse> {
+            override fun onResponse(
+                call: Call<CheckInByRutResponse>,
+                response: Response<CheckInByRutResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        personRepository.updateScannedFieldByRut(rut, "SERVER")
+                        Log.d("ScanFragment", "OK el checkin online SERVER")
+                    } else {
+                        personRepository.updateScannedFieldByRut(rut, "APP")
+                        Log.d("ScanFragment", "FALLO el checkin online APP")
+                    }
+                } catch (e: Exception) {
+                    personRepository.updateScannedFieldByRut(rut, "APP")
+                    Log.d("ScanFragment", "FALLO el checkin online exception APP: ${e.message}")
+                }
+            }
 
-     // Hacer la llamada a la API
-     RetrofitClient.apiService.sessionsPost(request).enqueue(object : Callback<Void> {
-         override fun onResponse(call: Call<Void>, response: Response<Void>) {
-             if (response.isSuccessful) {
-                 Toast.makeText(context, "Data sent successfully", Toast.LENGTH_SHORT).show()
-             } else {
-                 Toast.makeText(context, "Failed to send data", Toast.LENGTH_SHORT).show()
-             }
-         }
-
-         override fun onFailure(call: Call<Void>, t: Throwable) {
-             Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-         }
-     })*/
-    /* fun handleEnterAction(context: Context, editText: EditText) {
-         val inputText = editText.text.toString()
-         Toast.makeText(context, "Enter pressed: $inputText", Toast.LENGTH_SHORT).show()
-
-         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-         imm.hideSoftInputFromWindow(editText.windowToken, 0)
-     }*/
+            override fun onFailure(call: Call<CheckInByRutResponse>, t: Throwable) {
+                personRepository.updateScannedFieldByRut(rut, "APP")
+                Log.d("ScanFragment", "FALLO el checkin online APP: ${t.message}")
+            }
+        })
+    }
 }

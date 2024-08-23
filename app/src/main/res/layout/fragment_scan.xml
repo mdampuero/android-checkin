@@ -90,6 +90,8 @@
                         android:text="@string/EXAMPLE_RUT"
                         android:id="@+id/ET_identification"
                         android:layout_width="0dp"
+                        android:inputType="number"
+                        android:maxLines="1"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:singleLine="true"

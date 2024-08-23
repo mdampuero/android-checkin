@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@drawable/custom_dialog_background">
+
+    <ImageView
+        android:id="@+id/IV_success"
+        android:layout_width="64dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/ic_success" />
+    <ImageView
+        android:id="@+id/IV_warning"
+        android:layout_width="64dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/ic_warning" />
+    <ImageView
+        android:id="@+id/IV_error"
+        android:layout_width="64dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/ic_error" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:textSize="16sp"
+        android:textColor="@color/gray_strong" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BT_accept"
+        android:padding="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="@string/ACCEPT"
+        android:textColor="@color/pink"
+        >
+    </androidx.appcompat.widget.AppCompatButton>
+</LinearLayout>

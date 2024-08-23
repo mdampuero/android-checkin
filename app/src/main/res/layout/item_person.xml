@@ -55,6 +55,14 @@
             android:visibility="gone"
             app:srcCompat="@drawable/ic_check_solid"
             app:tint="@color/purple" />
+        <ImageView
+            android:id="@+id/IV_checkinLocal"
+            android:layout_width="24dp"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_check_solid"
+            app:tint="@color/white_500" />
         </LinearLayout>
     </LinearLayout>
 
