@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDefaultFragment() {
 
-        val defaultFragment = ScanFragment() // Por ejemplo
+        val defaultFragment = ScanFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, defaultFragment)
             .commit()

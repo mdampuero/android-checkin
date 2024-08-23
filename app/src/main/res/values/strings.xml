@@ -1,7 +1,10 @@
 <resources>
+    <!--
     <string name="EXAMPLE_RUT">26002138-9</string>
-    <string name="EXAMPLE_URL">httpsÑ--portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
-
+    <string name="EXAMPLE_URL">httpsÑ-portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
+    -->
+    <string name="EXAMPLE_RUT"></string>
+    <string name="EXAMPLE_URL"></string>
     <string name="APP_NAME">Clickgroup</string>
     <string name="SCAN_TO_CODE">Escanee el código</string>
     <string name="SCAN">Escaner</string>
@@ -40,4 +43,10 @@
     <string name="CHECKIN_EXIST">Este usuario ya ha hecho check-in</string>
     <string name="ACCEPT">Aceptar</string>
     <string name="PERSON_NOT_FOUND">No se encontró ninguna persona con ese RUT.</string>
+    <string name="BACK">Volver</string>
+    <string name="FULLNAME">Nombre completo</string>
+    <string name="EMAIL">Email</string>
+    <string name="DOCUMENT">RUT</string>
+    <string name="EXTERNAL_ID">Id Swoogo</string>
+    <string name="CHECK_IN">Check In</string>
 </resources>

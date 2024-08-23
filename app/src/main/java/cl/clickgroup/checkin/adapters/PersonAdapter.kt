@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.data.repositories.PersonDB
+import cl.clickgroup.checkin.fragments.DetailFragment
 
 class PersonAdapter(private var personList: List<PersonDB>) :
 
@@ -18,6 +20,7 @@ class PersonAdapter(private var personList: List<PersonDB>) :
         val tvRut: TextView = itemView.findViewById(R.id.TV_rut)
         val ivCheckIn: ImageView = itemView.findViewById(R.id.IV_checkin)
         val ivCheckInLocal: ImageView = itemView.findViewById(R.id.IV_checkinLocal)
+        val ivNoCheckIn: ImageView = itemView.findViewById(R.id.IV_noCheckin)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
@@ -34,13 +37,24 @@ class PersonAdapter(private var personList: List<PersonDB>) :
             if(person.scanned == "SERVER"){
                 holder.ivCheckIn.visibility = View.VISIBLE
                 holder.ivCheckInLocal.visibility = View.GONE
+                holder.ivNoCheckIn.visibility = View.GONE
             }else{
-                holder.ivCheckIn.visibility = View.GONE
                 holder.ivCheckInLocal.visibility = View.VISIBLE
+                holder.ivCheckIn.visibility = View.GONE
+                holder.ivNoCheckIn.visibility = View.GONE
             }
         }else{
-            holder.ivCheckIn.visibility = View.GONE
+            holder.ivNoCheckIn.visibility = View.VISIBLE
             holder.ivCheckInLocal.visibility = View.GONE
+            holder.ivCheckIn.visibility = View.GONE
+        }
+        holder.itemView.setOnClickListener {
+            val detailFragment = DetailFragment.newInstance(person.id)
+
+            val fragmentTransaction = (holder.itemView.context as AppCompatActivity).supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container, detailFragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
     }
 

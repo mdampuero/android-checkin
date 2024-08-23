@@ -17,4 +17,7 @@
     <color name="gray_soft">#FF2E3032</color>
     <color name="pink">#FFF41B45</color>
     <color name="purple">#FF8F5EE7</color>
+    <color name="success">#FF4CAF50</color>
+    <color name="warning">#FFFFC107</color>
+    <color name="danger">#FFF44336</color>
 </resources>
