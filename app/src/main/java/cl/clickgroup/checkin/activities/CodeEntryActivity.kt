@@ -31,14 +31,6 @@ class CodeEntryActivity : AppCompatActivity() {
 
         val savedCode = SharedPreferencesUtils.getData(this, "session_id")
 
-        /**
-         * Remove
-         */
-        /*val editor = sharedPreferences.edit()
-        editor.remove("SAVED_CODE")
-        editor.apply()*/
-
-
         if (!savedCode.isNullOrEmpty()) {
             goToMainScreen(false)
         }

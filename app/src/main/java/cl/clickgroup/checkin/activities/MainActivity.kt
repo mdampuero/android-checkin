@@ -15,18 +15,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         needSync = intent.getBooleanExtra("needSync", false)
 
         if (savedInstanceState == null) {
             if (needSync) {
                 showCheckInFragment()
+                bottomNavigationView.selectedItemId = R.id.nav_search
             } else {
                 showDefaultFragment()
+                bottomNavigationView.selectedItemId = R.id.nav_home
             }
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             val fragment: Fragment = when (item.itemId) {
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showDefaultFragment() {
-        // Muestra el fragmento predeterminado o cualquier otro fragmento
+
         val defaultFragment = ScanFragment() // Por ejemplo
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, defaultFragment)
