@@ -57,6 +57,9 @@ dependencies {
     kapt("androidx.room:room-compiler:2.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.3.0")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.10")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 }

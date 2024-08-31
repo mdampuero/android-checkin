@@ -3,22 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/TV_titleScan"
+        <LinearLayout
+            android:id="@+id/LL_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="12dp"
-            android:paddingBottom="24dp"
-            android:text="@string/SCAN"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/CV_scanInput"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/IV_iso"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/iso" />
+
+            <ImageView
+                android:id="@+id/IV_logo_text"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/logo" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/BT_qrScan"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_qrscan"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/LL_brand"
+            app:tint="@color/white" />
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/CV_scanInput"
@@ -28,8 +57,9 @@
             app:cardCornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@id/CV_manualInput"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TV_titleScan">
+            app:layout_constraintTop_toBottomOf="@+id/BT_qrScan">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/SCAN_TO_CODE"
+                    android:text="@string/USE_BARCODE"
                     android:textSize="16dp"
                     android:textStyle="bold"></TextView>
 
@@ -48,10 +78,10 @@
                     android:id="@+id/ET_resultScan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/FOCUS_CURSOR"
                     android:imeOptions="actionDone"
-                    android:hint="https://..."
-                    android:text="@string/EXAMPLE_URL"
                     android:singleLine="true"
+                    android:text="@string/EXAMPLE_URL"
                     android:textColorHint="@color/white_300"></EditText>
             </LinearLayout>
 
@@ -87,25 +117,81 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:text="@string/EXAMPLE_RUT"
                         android:id="@+id/ET_identification"
                         android:layout_width="0dp"
-
-                        android:maxLines="1"
                         android:layout_height="wrap_content"
+
                         android:layout_weight="0.7"
-                        android:singleLine="true"
                         android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@string/EXAMPLE_RUT"
                         android:textColorHint="@color/white_300"></EditText>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="0dp"
                         android:id="@+id/BT_search"
-                        android:padding="0dp"
+                        android:layout_width="0dp"
                         android:layout_height="36dp"
-                        android:text="@string/SEARCH"
+                        android:layout_weight="0.3"
                         android:background="@color/pink"
-                        android:layout_weight="0.3">
+                        android:padding="0dp"
+                        android:text="@string/SEARCH">
+
+                    </androidx.appcompat.widget.AppCompatButton>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CV_registrantId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/gray_soft"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CV_manualInput">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/SEARCH_FOR_REGISTRANT_ID"
+                    android:textSize="16dp"
+                    android:textStyle="bold"></TextView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/ET_registrantId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="0.7"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="@string/EXAMPLE_RUT"
+                        android:textColorHint="@color/white_300"></EditText>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/BT_search_registrant"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_weight="0.3"
+                        android:background="@color/pink"
+                        android:padding="0dp"
+                        android:text="@string/SEARCH">
 
                     </androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>

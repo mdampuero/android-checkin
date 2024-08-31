@@ -49,4 +49,8 @@
     <string name="DOCUMENT">RUT</string>
     <string name="EXTERNAL_ID">Id Swoogo</string>
     <string name="CHECK_IN">Check In</string>
+    <string name="SCAN_TO_CODE_QR">Escanee un código QR o PDF417</string>
+    <string name="SEARCH_FOR_REGISTRANT_ID">Buscar por ID</string>
+    <string name="USE_BARCODE">Utilizar lector PDF 417</string>
+    <string name="FOCUS_CURSOR">Toque aquí para utilizar el lector</string>
 </resources>

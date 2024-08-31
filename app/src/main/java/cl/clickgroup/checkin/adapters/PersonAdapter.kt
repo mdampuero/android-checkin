@@ -32,7 +32,7 @@ class PersonAdapter(private var personList: List<PersonDB>) :
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = personList[position]
         holder.tvName.text = "${person.first_name} ${person.last_name}"
-        holder.tvRut.text = person.rut
+        holder.tvRut.text = "RUT: ${person.rut} - ID: ${person.external_id}"
         if(!person.scanned.isNullOrEmpty()){
             if(person.scanned == "SERVER"){
                 holder.ivCheckIn.visibility = View.VISIBLE

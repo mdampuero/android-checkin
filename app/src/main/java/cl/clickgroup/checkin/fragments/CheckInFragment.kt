@@ -204,6 +204,7 @@ class CheckInFragment : Fragment() {
         val filteredList = allPersons.filter { person ->
             person.first_name.contains(query, ignoreCase = true) ||
                     person.last_name.contains(query, ignoreCase = true) ||
+                    person.external_id.toString().contains(query, ignoreCase = true) ||
                     person.rut.contains(query, ignoreCase = true)
         }
         adapter.updateList(filteredList)
