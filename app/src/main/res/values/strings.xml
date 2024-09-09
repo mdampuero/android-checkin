@@ -3,8 +3,8 @@
     <string name="EXAMPLE_RUT">26002138-9</string>
     <string name="EXAMPLE_URL">httpsÑ-portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
     -->
-    <string name="EXAMPLE_RUT"></string>
-    <string name="EXAMPLE_URL"></string>
+    <string name="HINT_RUT">12345678-9</string>
+    <string name="HINT_URL">Toque aquí para utilizar el lector</string>
     <string name="APP_NAME">Clickgroup</string>
     <string name="SCAN_TO_CODE">Escanee el código</string>
     <string name="SCAN">Escaner</string>
@@ -43,6 +43,7 @@
     <string name="CHECKIN_EXIST">Este usuario ya ha hecho check-in</string>
     <string name="ACCEPT">Aceptar</string>
     <string name="PERSON_NOT_FOUND">No se encontró ninguna persona con ese RUT.</string>
+    <string name="PERSON_NOT_FOUND_BY_ID">No se encontró ninguna persona con ese ID.</string>
     <string name="BACK">Volver</string>
     <string name="FULLNAME">Nombre completo</string>
     <string name="EMAIL">Email</string>
@@ -52,5 +53,10 @@
     <string name="SCAN_TO_CODE_QR">Escanee un código QR o PDF417</string>
     <string name="SEARCH_FOR_REGISTRANT_ID">Buscar por ID</string>
     <string name="USE_BARCODE">Utilizar lector PDF 417</string>
-    <string name="FOCUS_CURSOR">Toque aquí para utilizar el lector</string>
+    <string name="HINT_ID">9999</string>
+    <string name="SCAN_CANCELED">Escaneo cancelado</string>
+    <string name="QR_INVALID">El código escaneado no es válido</string>
+    <string name="EXAMPLE_ID"></string>
+    <string name="EXAMPLE_RUT"></string>
+    <string name="EXAMPLE_URL"></string>
 </resources>

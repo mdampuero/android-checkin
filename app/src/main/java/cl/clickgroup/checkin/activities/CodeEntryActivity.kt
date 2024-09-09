@@ -89,12 +89,14 @@ class CodeEntryActivity : AppCompatActivity() {
         val eventId = integration.event_id
         val sessionId = integration.session_id
         val eventName = integration.event_name
+        val extraOption = integration.extraOption
         SharedPreferencesUtils.saveData(
             applicationContext,
             "session_id", sessionId,
             "integration_id", integrationId,
             "event_id", eventId,
-            "event_name", eventName
+            "event_name", eventName,
+            "extraOption", extraOption
         )
     }
     private fun goToMainScreen(needSync: Boolean) {

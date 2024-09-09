@@ -18,6 +18,7 @@ import cl.clickgroup.checkin.activities.MainActivity
 import cl.clickgroup.checkin.data.repositories.PersonRepository
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import kotlin.math.log
 
 class SettingFragment : Fragment() {
     private lateinit var personRepository: PersonRepository
@@ -82,9 +83,6 @@ class SettingFragment : Fragment() {
             requireContext().getString(R.string.CLEAR_CODE_SUCCESS)
         )
         clearDatabase()
-        val intent = Intent(requireContext(), CodeEntryActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
     }
 
     private fun confirmationDialogClearDatabase() {
@@ -121,5 +119,12 @@ class SettingFragment : Fragment() {
             requireContext(),
             requireContext().getString(R.string.CLEAR_DATABASE_SUCCESS)
         )
+        logout()
+    }
+
+    private fun logout(){
+        val intent = Intent(requireContext(), CodeEntryActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }

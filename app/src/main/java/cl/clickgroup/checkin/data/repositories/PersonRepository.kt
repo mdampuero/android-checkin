@@ -84,6 +84,42 @@ class PersonRepository(context: Context) {
         cursor.close()
         return person
     }
+
+    fun getPersonByExternalID(external_id: Int): PersonDB? {
+        val db = dbHelper.readableDatabase
+        var person: PersonDB? = null
+        val cursor = db.query(
+            "persons",
+            null,
+            "external_id = ?",
+            arrayOf(external_id.toString()),
+            null,
+            null,
+            null
+        )
+
+        if (cursor.moveToFirst()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"))
+            val lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"))
+            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
+            val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
+
+            person = PersonDB(
+                id = id,
+                first_name = firstName,
+                last_name = lastName,
+                email = email,
+                external_id = external_id,
+                rut = rut,
+                scanned = scanned
+            )
+        }
+        cursor.close()
+        return person
+    }
+
     fun getPersonById(id: Int): PersonDB? {
         val db = dbHelper.readableDatabase
         var person: PersonDB? = null

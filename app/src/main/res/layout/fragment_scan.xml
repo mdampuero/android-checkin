@@ -75,10 +75,10 @@
                     android:textStyle="bold"></TextView>
 
                 <EditText
-                    android:id="@+id/ET_resultScan"
+                    android:id="@+id/ET_searchByURL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/FOCUS_CURSOR"
+                    android:hint="@string/HINT_URL"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:text="@string/EXAMPLE_URL"
@@ -117,19 +117,20 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/ET_identification"
+                        android:id="@+id/ET_searchByRut"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
+                        android:hint="@string/HINT_RUT"
                         android:layout_weight="0.7"
                         android:imeOptions="actionDone"
                         android:maxLines="1"
+                        android:inputType="phone"
                         android:singleLine="true"
                         android:text="@string/EXAMPLE_RUT"
                         android:textColorHint="@color/white_300"></EditText>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/BT_search"
+                        android:id="@+id/BT_searchByRut"
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_weight="0.3"
@@ -173,19 +174,20 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/ET_registrantId"
+                        android:id="@+id/ET_searchByID"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
+                        android:hint="@string/HINT_ID"
                         android:layout_weight="0.7"
                         android:imeOptions="actionDone"
                         android:maxLines="1"
+                        android:inputType="number"
                         android:singleLine="true"
-                        android:text="@string/EXAMPLE_RUT"
+                        android:text="@string/EXAMPLE_ID"
                         android:textColorHint="@color/white_300"></EditText>
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/BT_search_registrant"
+                        android:id="@+id/BT_searchByID"
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_weight="0.3"

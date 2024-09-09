@@ -3,7 +3,8 @@ data class Integration(
     val session_id: String,
     val integration_id: String,
     val event_id: String,
-    val event_name: String
+    val event_name: String,
+    val extraOption: Boolean
 )
 data class IntegrationsEventCodeResponse(
     val result: Boolean,

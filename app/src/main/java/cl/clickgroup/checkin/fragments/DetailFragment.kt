@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.data.repositories.PersonRepository
 import cl.clickgroup.checkin.utils.CheckInUtils
+import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 
 class DetailFragment : Fragment() {
 
     private var personId: Int? = null
     private lateinit var personRepository: PersonRepository
-
+    private var checkInBySearch : Boolean = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +39,9 @@ class DetailFragment : Fragment() {
         btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+
+        checkInBySearch = SharedPreferencesUtils.getData(requireContext(), "extraOption") as? Boolean ?: false
+
     }
 
     private fun loadPersonDetails(personId: Int) {
@@ -75,9 +79,13 @@ class DetailFragment : Fragment() {
                 }
             }else{
                 ivNoCheckIn.visibility = View.VISIBLE
-                btCheckIn.visibility = View.VISIBLE
                 ivCheckInLocal.visibility = View.GONE
                 ivCheckIn.visibility = View.GONE
+                if(checkInBySearch){
+                    btCheckIn.visibility = View.VISIBLE
+                }else{
+                    btCheckIn.visibility = View.GONE
+                }
             }
             btCheckIn.setOnClickListener {
                 CheckInUtils.checkInByRut(requireContext(), person.rut)

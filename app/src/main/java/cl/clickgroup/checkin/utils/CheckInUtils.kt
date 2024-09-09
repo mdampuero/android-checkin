@@ -25,6 +25,21 @@ object CheckInUtils {
         }
     }
 
+    fun checkInByID(context: Context, id: Int) {
+        val personRepository = PersonRepository(context)
+        val person = personRepository.getPersonByExternalID(id)
+        if (person != null) {
+            if(person.scanned.isNullOrEmpty()){
+                syncCheckIn(context, person.rut)
+                DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS))
+            }else{
+                DialogUtils.showCustomDialog(context, "error", context.getString(string.CHECKIN_EXIST))
+            }
+        } else {
+            DialogUtils.showCustomDialog(context, "warning", context.getString(string.PERSON_NOT_FOUND_BY_ID))
+        }
+    }
+
     private fun syncCheckIn(context: Context, rut: String) {
         val personRepository = PersonRepository(context)
         val sessionID = SharedPreferencesUtils.getData(context, "session_id")
