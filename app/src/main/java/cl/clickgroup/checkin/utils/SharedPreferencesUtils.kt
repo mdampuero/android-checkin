@@ -41,4 +41,8 @@ object SharedPreferencesUtils {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getString(key, null)
     }
+    fun getDataBoolean(context: Context, key: String): Boolean {
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(key, false)
+    }
 }

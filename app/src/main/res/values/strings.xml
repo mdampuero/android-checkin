@@ -59,4 +59,7 @@
     <string name="EXAMPLE_ID"></string>
     <string name="EXAMPLE_RUT"></string>
     <string name="EXAMPLE_URL"></string>
+    <string name="EVENT_NAME">Nombre del Evento</string>
+    <string name="EVENT_ID">ID Evento Swoogo</string>
+    <string name="CHECKIN_BY_SEARCH">CheckIn desde el buscador</string>
 </resources>

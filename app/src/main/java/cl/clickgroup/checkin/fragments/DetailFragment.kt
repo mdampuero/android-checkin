@@ -1,6 +1,7 @@
 package cl.clickgroup.checkin.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        checkInBySearch = SharedPreferencesUtils.getDataBoolean(requireContext(), "extraOption")
         arguments?.let {
             personId = it.getInt("person_id")
             loadPersonDetails(personId!!)
@@ -40,7 +41,6 @@ class DetailFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        checkInBySearch = SharedPreferencesUtils.getData(requireContext(), "extraOption") as? Boolean ?: false
 
     }
 
@@ -86,6 +86,7 @@ class DetailFragment : Fragment() {
                 }else{
                     btCheckIn.visibility = View.GONE
                 }
+                Log.d("DetailFragment", checkInBySearch.toString())
             }
             btCheckIn.setOnClickListener {
                 CheckInUtils.checkInByRut(requireContext(), person.rut)

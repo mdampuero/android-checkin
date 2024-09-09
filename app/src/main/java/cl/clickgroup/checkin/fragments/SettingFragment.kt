@@ -23,66 +23,42 @@ import kotlin.math.log
 class SettingFragment : Fragment() {
     private lateinit var personRepository: PersonRepository
     private lateinit var etEventCodeValue: TextView
+    private lateinit var etEventNameValue: TextView
+    private lateinit var etEventIDValue: TextView
+    private lateinit var etCheckInBySearchValue: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
         val btClearDatabase = view.findViewById<Button>(R.id.BT_clearDatabase)
-        val btChangeCode = view.findViewById<Button>(R.id.BT_changeCode)
         etEventCodeValue = view.findViewById<TextView>(R.id.TV_eventCodeValue)
+        etEventNameValue = view.findViewById<TextView>(R.id.TV_eventNameValue)
+        etEventIDValue = view.findViewById<TextView>(R.id.TV_eventIDValue)
+        etCheckInBySearchValue = view.findViewById<TextView>(R.id.TV_checkInBySearchValue)
 
         init()
         btClearDatabase.setOnClickListener {
             confirmationDialogClearDatabase()
         }
-        btChangeCode.setOnClickListener {
-            confirmationDialogClearCode()
-        }
+
         return view
     }
 
     private fun init() {
-        val savedCode = SharedPreferencesUtils.getData(requireContext(), "session_id")
-        etEventCodeValue.text = savedCode
+        val session_id = SharedPreferencesUtils.getData(requireContext(), "session_id")
+        val event_name = SharedPreferencesUtils.getData(requireContext(), "event_name")
+        val event_id = SharedPreferencesUtils.getData(requireContext(), "event_id")
+        val extraOption = SharedPreferencesUtils.getDataBoolean(requireContext(), "extraOption")
+        etEventCodeValue.text = session_id
+        etEventNameValue.text = event_name
+        etEventIDValue.text = event_id
+        if(extraOption){
+            etCheckInBySearchValue.text = getString(R.string.YES)
+        }else{
+            etCheckInBySearchValue.text = getString(R.string.NO)
+        }
         personRepository = PersonRepository(requireContext())
-    }
-
-    private fun confirmationDialogClearCode() {
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.custom_alert_dialog, null)
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(dialogView)
-
-        val customTitle = dialogView.findViewById<TextView>(R.id.customTitle)
-        val customMessage = dialogView.findViewById<TextView>(R.id.customMessage)
-
-        customTitle.text = getString(R.string.CONFIRMATION_TITLE)
-        customMessage.text = getString(R.string.CONFIRMATION_MESSAGE_CLEAR_CODE)
-
-        builder.setPositiveButton(getString(R.string.YES)) { _, _ ->
-            clearCode()
-        }
-        builder.setNegativeButton(getString(R.string.NO)) { _, _ ->
-        }
-
-        val dialog = builder.create()
-        dialog.setOnShowListener {
-            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            positiveButton?.setTextColor(ContextCompat.getColor(requireContext(), R.color.pink))
-            negativeButton?.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_strong))
-        }
-        dialog.show()
-    }
-
-    private fun clearCode() {
-        SharedPreferencesUtils.saveSingleData(requireContext(), "session_id", "")
-        ToastUtils.showCenteredToast(
-            requireContext(),
-            requireContext().getString(R.string.CLEAR_CODE_SUCCESS)
-        )
-        clearDatabase()
     }
 
     private fun confirmationDialogClearDatabase() {
@@ -114,6 +90,10 @@ class SettingFragment : Fragment() {
     }
 
     private fun clearDatabase() {
+        SharedPreferencesUtils.saveSingleData(requireContext(), "session_id", "")
+        SharedPreferencesUtils.saveSingleData(requireContext(), "integration_id", "")
+        SharedPreferencesUtils.saveSingleData(requireContext(), "event_id", "")
+        SharedPreferencesUtils.saveSingleData(requireContext(), "event_name", "")
         personRepository.truncatePersonsTable()
         ToastUtils.showCenteredToast(
             requireContext(),
