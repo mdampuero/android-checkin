@@ -25,6 +25,8 @@ import cl.clickgroup.checkin.utils.ToastUtils
 class ScanFragment : Fragment() {
 
     private val SCAN_REQUEST_CODE = 101
+    private lateinit var etSearchByID: EditText
+    private lateinit var etSearchByRut: EditText
     private lateinit var etSearchByURL: EditText
 
     override fun onCreateView(
@@ -42,7 +44,7 @@ class ScanFragment : Fragment() {
          * Search By RUT
          */
         val btSearchByRut = view.findViewById<Button>(R.id.BT_searchByRut)
-        val etSearchByRut = view.findViewById<EditText>(R.id.ET_searchByRut)
+        etSearchByRut = view.findViewById<EditText>(R.id.ET_searchByRut)
 
         etSearchByRut.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -72,6 +74,7 @@ class ScanFragment : Fragment() {
                     hideKeyboard(requireContext(), etSearchByURL)
                     lastEditorActionTime = currentTime
                     checkInByURl(etSearchByURL.text.toString())
+                    etSearchByURL.text=null
                 }
                 true
             } else {
@@ -79,12 +82,11 @@ class ScanFragment : Fragment() {
             }
         }
 
-
         /**
          * Search By ID
          */
         val btSearchByID = view.findViewById<Button>(R.id.BT_searchByID)
-        val etSearchByID = view.findViewById<EditText>(R.id.ET_searchByID)
+        etSearchByID = view.findViewById<EditText>(R.id.ET_searchByID)
         etSearchByID.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val currentTime = System.currentTimeMillis()
@@ -118,7 +120,7 @@ class ScanFragment : Fragment() {
         if (requestCode == SCAN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val scanResult = data?.getStringExtra("SCAN_RESULT")
             if (scanResult != null) {
-               handleScanResult(scanResult)
+                handleScanResult(scanResult)
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             ToastUtils.showCenteredToast(
@@ -160,11 +162,13 @@ class ScanFragment : Fragment() {
             ToastUtils.showCenteredToast(requireContext(), requireContext().getString(R.string.RUT_INVALID))
             return
         }
+        etSearchByRut.text = null
         CheckInUtils.checkInByRut(requireContext(), rut)
     }
 
     private fun checkInByID(id: String) {
         Log.d("ScanFragment", "ID: ${id}")
+        etSearchByID.text = null
         CheckInUtils.checkInByID(requireContext(), id.toInt())
     }
 
