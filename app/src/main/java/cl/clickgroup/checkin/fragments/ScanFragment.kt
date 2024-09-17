@@ -22,12 +22,15 @@ import cl.clickgroup.checkin.utils.CheckInUtils
 import cl.clickgroup.checkin.utils.RutValidatorUtils
 import cl.clickgroup.checkin.utils.ToastUtils
 
-class ScanFragment : Fragment() {
+class ScanFragment : Fragment(), View.OnKeyListener {
 
     private val SCAN_REQUEST_CODE = 101
     private lateinit var etSearchByID: EditText
     private lateinit var etSearchByRut: EditText
     private lateinit var etSearchByURL: EditText
+
+    // Buffer para acumular las teclas
+    private val buffer = StringBuilder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +42,11 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var lastEditorActionTime: Long = 0
+
+        // Establecer el listener para capturar todas las teclas presionadas
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener(this)
 
         /**
          * Search By RUT
@@ -74,7 +82,7 @@ class ScanFragment : Fragment() {
                     hideKeyboard(requireContext(), etSearchByURL)
                     lastEditorActionTime = currentTime
                     checkInByURl(etSearchByURL.text.toString())
-                    etSearchByURL.text=null
+                    etSearchByURL.text = null
                 }
                 true
             } else {
@@ -136,7 +144,7 @@ class ScanFragment : Fragment() {
                 checkInByID(scanResult)
             }
             isURL(scanResult) -> {
-                etSearchByURL.setText(scanResult);
+                etSearchByURL.setText(scanResult)
                 checkInByURl(scanResult)
             }
             else -> {
@@ -157,7 +165,7 @@ class ScanFragment : Fragment() {
     }
 
     private fun checkInByRut(rut: String) {
-        Log.d("ScanFragment", "RUT: ${rut}")
+        Log.d("ScanFragment", "RUT: $rut")
         if (!RutValidatorUtils.isValidRut(rut)) {
             ToastUtils.showCenteredToast(requireContext(), requireContext().getString(R.string.RUT_INVALID))
             return
@@ -167,15 +175,14 @@ class ScanFragment : Fragment() {
     }
 
     private fun checkInByID(id: String) {
-        Log.d("ScanFragment", "ID: ${id}")
+        Log.d("ScanFragment", "ID: $id")
         etSearchByID.text = null
         CheckInUtils.checkInByID(requireContext(), id.toInt())
     }
 
     private fun checkInByURl(url: String) {
-        Log.d("ScanFragment", "url: ${url}")
-        var rut: String? = null
-        rut = RutValidatorUtils.extractRut(url)
+        Log.d("ScanFragment", "url: $url")
+        val rut: String? = RutValidatorUtils.extractRut(url)
         if (rut.isNullOrBlank()) {
             ToastUtils.showCenteredToast(
                 requireContext(),
@@ -189,5 +196,34 @@ class ScanFragment : Fragment() {
     private fun hideKeyboard(context: Context, editText: EditText) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)
+    }
+
+    // Captura de las teclas y acumulación en buffer
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        if (event?.action == KeyEvent.ACTION_DOWN) {
+            val keyChar = event.unicodeChar.toChar() // Convertir a carácter la tecla
+
+            // Acumular el carácter leído en el buffer
+            buffer.append(keyChar)
+
+            // Verificar si el buffer contiene la palabra "type="
+            if (buffer.contains("type=")) {
+                // Procesar la URL acumulada en el buffer
+                val url = buffer.toString()
+                handleBarcodeInput(url)
+                buffer.clear() // Limpiar el buffer después de procesar la URL
+            }
+            return true
+        }
+        return false
+    }
+
+    private fun handleBarcodeInput(input: String) {
+        Log.d("ScanFragment", "buffer: $input")
+        if (isURL(input) && input.contains("&type=")) {
+            checkInByURl(input)
+        } else {
+            ToastUtils.showCenteredToast(requireContext(), "Invalid Barcode or URL")
+        }
     }
 }
