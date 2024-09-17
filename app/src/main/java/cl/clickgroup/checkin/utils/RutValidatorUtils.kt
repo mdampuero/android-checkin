@@ -18,12 +18,10 @@ object RutValidatorUtils {
     }
 
     fun extractRut(url: String): String? {
-        val regex = Regex("RUN/(\\d+)'([\\dkK])/")
+        val regex = Regex("RUN=(\\d+-[\\dkK])")
         val matchResult = regex.find(url)
-
         return matchResult?.let {
-            val (numberPart, verifierPart) = it.destructured
-            "$numberPart-$verifierPart"
+            it.groupValues[1]
         }
     }
 
