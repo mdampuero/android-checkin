@@ -11,22 +11,25 @@
 
     <application
         android:allowBackup="true"
-        android:screenOrientation="portrait"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/APP_NAME"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.Checkin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.BarcodeScanner"
+            android:exported="false" />
+        <activity
             android:name=".activities.ScanActivity"
+            android:exported="false"
             android:screenOrientation="sensorPortrait"
             android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:exported="false" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.CodeEntryActivity"
             android:exported="true">
@@ -38,7 +41,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

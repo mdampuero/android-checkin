@@ -26,7 +26,7 @@ class PersonRepository(context: Context) {
             put("last_name", person.last_name)
             put("email", person.email)
             put("external_id", person.external_id)
-            put("rut", person.rut)
+            put("rut", person.rut.uppercase())
             put("scanned", person.scanned)
         }
         return db.insert("persons", null, values)
@@ -39,7 +39,7 @@ class PersonRepository(context: Context) {
             put("last_name", person.last_name)
             put("email", person.email)
             put("external_id", person.external_id)
-            put("rut", person.rut)
+            put("rut", person.rut.uppercase())
             put("scanned", person.scanned)
         }
         return db.update(
@@ -196,13 +196,13 @@ class PersonRepository(context: Context) {
         val selectionArgs = arrayOf("APP")
 
         val cursor = db.query(
-            "persons",   // Nombre de la tabla
-            columns,     // Columnas a retornar
-            selection,   // WHERE
-            selectionArgs, // Argumentos del WHERE
-            null,        // No agrupar
-            null,        // No tener filtro de grupo
-            null         // No tener orden
+            "persons",
+            columns,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
         )
 
         with(cursor) {

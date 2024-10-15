@@ -62,4 +62,5 @@
     <string name="EVENT_NAME">Nombre del Evento</string>
     <string name="EVENT_ID">ID Evento Swoogo</string>
     <string name="CHECKIN_BY_SEARCH">CheckIn desde el buscador</string>
+    <string name="add_button">Crear</string>
 </resources>

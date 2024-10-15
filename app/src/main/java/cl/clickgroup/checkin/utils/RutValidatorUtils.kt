@@ -12,7 +12,7 @@ object RutValidatorUtils {
         if (parts.size != 2) return false
 
         val numberPart = parts[0]
-        val verifierPart = parts[1].toUpperCase()
+        val verifierPart = parts[1].uppercase()
 
         return verifyDigit(numberPart, verifierPart)
     }
@@ -21,7 +21,7 @@ object RutValidatorUtils {
         val regex = Regex("RUN=(\\d+-[\\dkK])")
         val matchResult = regex.find(url)
         return matchResult?.let {
-            it.groupValues[1]
+            it.groupValues[1].uppercase()
         }
     }
 

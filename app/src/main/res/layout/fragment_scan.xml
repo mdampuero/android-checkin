@@ -124,7 +124,8 @@
                         android:layout_weight="0.7"
                         android:imeOptions="actionDone"
                         android:maxLines="1"
-                        android:inputType="phone"
+                        android:inputType="text"
+                        android:digits="0123456789kK-"
                         android:singleLine="true"
                         android:text="@string/EXAMPLE_RUT"
                         android:textColorHint="@color/white_300"></EditText>

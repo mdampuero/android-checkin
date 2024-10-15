@@ -1,5 +1,6 @@
 package cl.clickgroup.checkin.fragments
 
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -19,6 +20,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
+import cl.clickgroup.checkin.activities.BarcodeScanner
 import cl.clickgroup.checkin.activities.ScanActivity
 import cl.clickgroup.checkin.utils.CheckInUtils
 import cl.clickgroup.checkin.utils.RutValidatorUtils
@@ -86,11 +88,15 @@ class ScanFragment : Fragment() {
 
         etSearchByURL.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val inputText = s.toString()
-                if (inputText.contains("type=")) {
+                /**
+                 * Function detect string in url input
+                 */
+                /*val inputText = s.toString()
+                if (!isProcessing && inputText.contains("type=")) {
+                    isProcessing = true // Indica que se está procesando el texto
                     checkInByURl(inputText)
                     etSearchByURL.text = null
-                }
+                }*/
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
@@ -128,6 +134,16 @@ class ScanFragment : Fragment() {
             val intent = Intent(requireActivity(), ScanActivity::class.java)
             startActivityForResult(intent, SCAN_REQUEST_CODE)
         }
+
+        /**
+         * SCAN BARCODE
+         */
+        /*val btBarcodeScan = view.findViewById<Button>(R.id.BT_barcodeScan)
+        btBarcodeScan.setOnClickListener {
+            val intent = Intent(requireActivity(), BarcodeScanner::class.java)
+            startActivity(intent)
+            Log.d("ScanFragment", "ABRIR ACTIVITY")
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -179,6 +195,7 @@ class ScanFragment : Fragment() {
             return
         }
         etSearchByRut.text = null
+
         CheckInUtils.checkInByRut(requireContext(), rut)
     }
 
