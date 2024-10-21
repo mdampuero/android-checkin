@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import retrofit2.Call
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -54,6 +56,7 @@ class CheckInFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_checkin, container, false)
         val btSearch = view.findViewById<ImageView>(R.id.BT_refresh)
+        val btAdd = view.findViewById<ImageView>(R.id.BT_add)
 
         progressBar = view.findViewById(R.id.progressBar)
         progressText = view.findViewById(R.id.progressText)
@@ -66,7 +69,46 @@ class CheckInFragment : Fragment() {
         arguments?.let {
             needSync = it.getBoolean("needSync", false)
         }
+        btAdd.setOnClickListener {
+            /*val container = view?.findViewById<FrameLayout>(R.id.container)
 
+            container?.let {
+                val inflater = layoutInflater
+                val newLayout = inflater.inflate(R.layout.fragment_add_person, container, false)
+
+                container.removeAllViews()
+                container.addView(newLayout)
+
+                val inputFirstName = newLayout.findViewById<EditText>(R.id.input_first_name)
+                val inputLastName = newLayout.findViewById<EditText>(R.id.input_last_name)
+                val inputEmail = newLayout.findViewById<EditText>(R.id.input_email)
+                val btnSave = newLayout.findViewById<Button>(R.id.btn_save)
+
+                btnSave.setOnClickListener {
+                    val firstName = inputFirstName.text.toString()
+                    val lastName = inputLastName.text.toString()
+                    val email = inputEmail.text.toString()
+
+                    if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
+                        val newPerson = PersonDB(
+                            first_name = firstName,
+                            last_name = lastName,
+                            email = email,
+                            external_id = 0,  // ejemplo
+                            rut = "some_rut",
+                            scanned = ""
+                        )
+                        personRepository.insertPerson(newPerson)
+
+                        showList()
+
+                        parentFragmentManager.popBackStack()  // Quita el formulario y vuelve a mostrar el RecyclerView
+                    } else {
+                        ToastUtils.showCenteredToast(requireContext(), "Por favor, completa todos los campos")
+                    }
+                }
+            }*/
+        }
         btSearch.setOnClickListener {
             fetchData()
         }

@@ -71,6 +71,8 @@ class ScanFragment : Fragment() {
          * Search By URL
          */
         etSearchByURL = view.findViewById<EditText>(R.id.ET_searchByURL)
+
+        // Listener para manejar la tecla Enter/Done
         etSearchByURL.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val currentTime = System.currentTimeMillis()
@@ -78,9 +80,29 @@ class ScanFragment : Fragment() {
                     hideKeyboard(requireContext(), etSearchByURL)
                     lastEditorActionTime = currentTime
                     checkInByURl(etSearchByURL.text.toString())
-                    etSearchByURL.text=null
+                    etSearchByURL.text = null
                 }
                 true
+            } else {
+                false
+            }
+        }
+
+        // Listener para manejar la tecla Tab
+        etSearchByURL.setOnKeyListener { view, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_TAB) {
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastEditorActionTime > 500) {
+                    hideKeyboard(requireContext(), etSearchByURL)
+                    lastEditorActionTime = currentTime
+                    checkInByURl(etSearchByURL.text.toString())
+                    etSearchByURL.text = null
+                    view.clearFocus()
+                    view.requestFocus()
+                    true
+                } else {
+                    false
+                }
             } else {
                 false
             }
