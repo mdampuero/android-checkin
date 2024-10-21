@@ -48,7 +48,7 @@
     <string name="FULLNAME">Nombre completo</string>
     <string name="EMAIL">Email</string>
     <string name="DOCUMENT">RUT</string>
-    <string name="EXTERNAL_ID">Id Swoogo</string>
+    <string name="EXTERNAL_ID">ID usuario</string>
     <string name="CHECK_IN">Check In</string>
     <string name="SCAN_TO_CODE_QR">Escanee un código QR</string>
     <string name="SEARCH_FOR_REGISTRANT_ID">Buscar por ID</string>
@@ -60,7 +60,7 @@
     <string name="EXAMPLE_RUT"></string>
     <string name="EXAMPLE_URL"></string>
     <string name="EVENT_NAME">Nombre del Evento</string>
-    <string name="EVENT_ID">ID Evento Swoogo</string>
+    <string name="EVENT_ID">ID evento</string>
     <string name="CHECKIN_BY_SEARCH">CheckIn desde el buscador</string>
     <string name="ADD_BUTTON">Crear</string>
     <string name="FIRST_NAME">Nombre</string>

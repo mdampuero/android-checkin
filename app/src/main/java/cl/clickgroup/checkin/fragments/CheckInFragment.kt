@@ -16,7 +16,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.clickgroup.checkin.R
@@ -25,16 +24,10 @@ import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
 import cl.clickgroup.checkin.network.RetrofitClient
 import cl.clickgroup.checkin.network.requests.CheckInByRegistrantIDsRequest
-import cl.clickgroup.checkin.network.requests.CheckInByRutRequest
-import cl.clickgroup.checkin.network.responses.CheckInByRegistrantIDsResponse
-import cl.clickgroup.checkin.network.responses.CheckInByRutResponse
 import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
 import cl.clickgroup.checkin.network.responses.Person
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 
@@ -55,7 +48,7 @@ class CheckInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_checkin, container, false)
-        val btSearch = view.findViewById<ImageView>(R.id.BT_refresh)
+        val btRefresh = view.findViewById<ImageView>(R.id.BT_refresh)
         val btAdd = view.findViewById<ImageView>(R.id.BT_add)
 
         progressBar = view.findViewById(R.id.progressBar)
@@ -89,8 +82,8 @@ class CheckInFragment : Fragment() {
                     val lastName = inputLastName.text.toString()
                     val email = inputEmail.text.toString()
 
-                    if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
-                        val newPerson = PersonDB(
+                   // if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
+                        /*val newPerson = PersonDB(
                             first_name = firstName,
                             last_name = lastName,
                             email = email,
@@ -98,18 +91,18 @@ class CheckInFragment : Fragment() {
                             rut = "some_rut",
                             scanned = ""
                         )
-                        personRepository.insertPerson(newPerson)
+                        personRepository.insertPerson(newPerson)*/
 
                         showList()
 
-                        parentFragmentManager.popBackStack()  // Quita el formulario y vuelve a mostrar el RecyclerView
-                    } else {
+                        parentFragmentManager.popBackStack()
+                  /*  } else {
                         ToastUtils.showCenteredToast(requireContext(), "Por favor, completa todos los campos")
-                    }
+                    }*/
                 }
             }*/
         }
-        btSearch.setOnClickListener {
+        btRefresh.setOnClickListener {
             fetchData()
         }
 
