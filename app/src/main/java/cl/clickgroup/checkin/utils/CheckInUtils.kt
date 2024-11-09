@@ -16,7 +16,7 @@ object CheckInUtils {
         if (person != null) {
             if(person.scanned.isNullOrEmpty()){
                 syncCheckIn(context, rut)
-                DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS))
+                DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS), person)
             }else{
                 DialogUtils.showCustomDialog(context, "error", context.getString(string.CHECKIN_EXIST))
             }
@@ -31,7 +31,7 @@ object CheckInUtils {
         if (person != null) {
             if(person.scanned.isNullOrEmpty()){
                 syncCheckIn(context, person.rut)
-                DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS))
+                DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS), person)
             }else{
                 DialogUtils.showCustomDialog(context, "error", context.getString(string.CHECKIN_EXIST))
             }

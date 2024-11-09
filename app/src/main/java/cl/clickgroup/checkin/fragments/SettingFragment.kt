@@ -26,6 +26,7 @@ class SettingFragment : Fragment() {
     private lateinit var etEventNameValue: TextView
     private lateinit var etEventIDValue: TextView
     private lateinit var etCheckInBySearchValue: TextView
+    private lateinit var etRequestValue: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +37,7 @@ class SettingFragment : Fragment() {
         etEventNameValue = view.findViewById<TextView>(R.id.TV_eventNameValue)
         etEventIDValue = view.findViewById<TextView>(R.id.TV_eventIDValue)
         etCheckInBySearchValue = view.findViewById<TextView>(R.id.TV_checkInBySearchValue)
+        etRequestValue = view.findViewById<TextView>(R.id.TV_requestValue)
 
         init()
         btClearDatabase.setOnClickListener {
@@ -50,6 +52,7 @@ class SettingFragment : Fragment() {
         val event_name = SharedPreferencesUtils.getData(requireContext(), "event_name")
         val event_id = SharedPreferencesUtils.getData(requireContext(), "event_id")
         val extraOption = SharedPreferencesUtils.getDataBoolean(requireContext(), "extraOption")
+        val request = SharedPreferencesUtils.getDataBoolean(requireContext(), "request")
         etEventCodeValue.text = session_id
         etEventNameValue.text = event_name
         etEventIDValue.text = event_id
@@ -57,6 +60,11 @@ class SettingFragment : Fragment() {
             etCheckInBySearchValue.text = getString(R.string.YES)
         }else{
             etCheckInBySearchValue.text = getString(R.string.NO)
+        }
+        if(request){
+            etRequestValue.text = getString(R.string.YES)
+        }else{
+            etRequestValue.text = getString(R.string.NO)
         }
         personRepository = PersonRepository(requireContext())
     }

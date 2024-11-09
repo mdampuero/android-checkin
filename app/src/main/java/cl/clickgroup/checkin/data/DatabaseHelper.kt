@@ -20,7 +20,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
                 last_name TEXT NOT NULL,
                 email TEXT,
                 rut NOT NULL,
-                scanned TEXT
+                scanned TEXT,
+                request_value TEXT
             );
         """.trimIndent()
 
@@ -50,6 +51,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
 
     companion object {
         private const val DATABASE_NAME = "mydatabase.db"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 6
     }
 }

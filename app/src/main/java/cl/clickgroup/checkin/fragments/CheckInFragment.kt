@@ -1,5 +1,6 @@
 package cl.clickgroup.checkin.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cl.clickgroup.checkin.R
+import cl.clickgroup.checkin.activities.FormPerson
 import cl.clickgroup.checkin.adapters.PersonAdapter
 import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
@@ -63,6 +65,8 @@ class CheckInFragment : Fragment() {
             needSync = it.getBoolean("needSync", false)
         }
         btAdd.setOnClickListener {
+            val intent = Intent(requireActivity(), FormPerson::class.java)
+            startActivity(intent)
             /*val container = view?.findViewById<FrameLayout>(R.id.container)
 
             container?.let {
@@ -134,7 +138,7 @@ class CheckInFragment : Fragment() {
         }
     }
 
-    private fun fetchData() {
+    fun fetchData() {
         progressBar.visibility = View.VISIBLE
         progressText.visibility = View.VISIBLE
         val integrationId = SharedPreferencesUtils.getData(requireContext(), "integration_id")
@@ -194,7 +198,8 @@ class CheckInFragment : Fragment() {
                         email = personApi.email,
                         external_id = personApi.id,
                         rut = personApi.rut,
-                        scanned = personApi.scanned
+                        scanned = personApi.scanned,
+                        request_value = "",
                     )
                     personRepository.insertPerson(personDB)
                 }else{
@@ -211,7 +216,8 @@ class CheckInFragment : Fragment() {
                                 email = personApi.email,
                                 external_id = personApi.id,
                                 rut = personApi.rut,
-                                scanned = personApi.scanned
+                                scanned = personApi.scanned,
+                                request_value = ""
                             )
                             personRepository.updatePerson(personDBUpdate)
                         }

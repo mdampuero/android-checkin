@@ -9,12 +9,14 @@
         android:id="@+id/input_first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Mauricio prueba"
         android:hint="@string/FIRST_NAME" />
 
     <EditText
         android:id="@+id/input_last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Apellido prueba"
         android:hint="@string/LAST_NAME" />
 
     <EditText

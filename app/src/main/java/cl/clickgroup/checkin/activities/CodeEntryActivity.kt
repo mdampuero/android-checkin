@@ -90,13 +90,23 @@ class CodeEntryActivity : AppCompatActivity() {
         val sessionId = integration.session_id
         val eventName = integration.event_name
         val extraOption = integration.extraOption
+        val request = integration.request
+        val request_field = integration.request_field
+        val request_input_type = integration.request_input_type
+        val request_label = integration.request_label
+        val request_options = integration.request_options
         SharedPreferencesUtils.saveData(
             applicationContext,
             "session_id", sessionId,
             "integration_id", integrationId,
             "event_id", eventId,
             "event_name", eventName,
-            "extraOption", extraOption
+            "extraOption", extraOption,
+            "request", request,
+            "request_field", request_field,
+            "request_input_type", request_input_type,
+            "request_label", request_label,
+            "request_options", request_options,
         )
     }
     private fun goToMainScreen(needSync: Boolean) {

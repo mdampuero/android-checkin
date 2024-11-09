@@ -89,7 +89,7 @@
 
     <TextView
         android:layout_marginTop="8dp"
-        android:id="@+id/TV_document_value"
+        android:id="@+id/ET_document_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -106,7 +106,7 @@
 
     <TextView
         android:layout_marginTop="8dp"
-        android:id="@+id/TV_externalId_value"
+        android:id="@+id/ET_phone_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""

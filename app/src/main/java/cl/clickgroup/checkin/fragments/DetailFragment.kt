@@ -50,8 +50,8 @@ class DetailFragment : Fragment() {
         val person = personRepository.getPersonById(personId)
         val tvFullName = view.findViewById<TextView>(R.id.TV_fullName_value)
         val tvEmail = view.findViewById<TextView>(R.id.TV_email_value)
-        val tvDocument = view.findViewById<TextView>(R.id.TV_document_value)
-        val tvExternalId = view.findViewById<TextView>(R.id.TV_externalId_value)
+        val tvDocument = view.findViewById<TextView>(R.id.ET_document_value)
+        val tvExternalId = view.findViewById<TextView>(R.id.ET_phone_value)
 
         val ivCheckIn: ImageView = view.findViewById(R.id.IV_checkin)
         val ivCheckInLocal: ImageView = view.findViewById(R.id.IV_checkinLocal)

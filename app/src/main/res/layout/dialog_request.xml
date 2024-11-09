@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:backgroundTint="@color/gray_soft"
+    android:padding="32dp"
+    android:minWidth="300dp"
+    android:background="@drawable/custom_dialog_background">
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:textSize="16sp"
+        android:textColor="@color/white" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:hint="@string/ENTER_RESPONSE"
+        android:textColorHint="@color/white_500"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/white_700"
+        android:id="@+id/ET_requestInput">
+    </EditText>
+    <Spinner
+        android:id="@+id/SP_options"
+        android:visibility="gone"
+        android:layout_marginTop="32dp"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/gray_soft"
+        android:background="@color/gray_soft"
+        android:popupBackground="@color/gray_soft"
+        android:layout_height="50dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BT_accept"
+        android:padding="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="@string/ACCEPT"
+        android:backgroundTint="@color/pink"
+        android:textColor="@color/white"
+        >
+    </androidx.appcompat.widget.AppCompatButton>
+</LinearLayout>

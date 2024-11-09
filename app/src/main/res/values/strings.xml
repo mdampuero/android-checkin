@@ -66,4 +66,15 @@
     <string name="FIRST_NAME">Nombre</string>
     <string name="LAST_NAME">Apellido</string>
     <string name="SAVE">Guardar</string>
+    <string name="PHONE">Teléfono</string>
+    <string name="ERROR_FIRST_NAME_EMPTY">El nombre no puede estar vacío</string>
+    <string name="ERROR_FIRST_NAME_SHORT">El nombre debe tener al menos 2 caracteres</string>
+    <string name="ERROR_LAST_NAME_EMPTY">El apellido no puede estar vacío</string>
+    <string name="ERROR_LAST_NAME_SHORT">El apellido debe tener al menos 2 caracteres</string>
+    <string name="ERROR_EMAIL_INVALID">Introduce un email válido</string>
+    <string name="ERROR_DOCUMENT_EMPTY">El RUT no puede estar vacío</string>
+    <string name="REQUEST_MORE_INFO">Solicitar más información</string>
+    <string name="ENTER_RESPONSE">Respuesta...</string>
+    <string name="ERROR_REGISTRANT_CREATE">Ha ocurrido un error al crear el registrante</string>
+    <string name="REGISTRANT_CREATE_OK">Persona creada correctamente, vuelva sincronizar con el servidor</string>
 </resources>

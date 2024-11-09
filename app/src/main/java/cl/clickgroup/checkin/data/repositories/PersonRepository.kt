@@ -12,7 +12,8 @@ data class PersonDB(
     val email: String,
     val external_id: Int,
     val rut: String,
-    val scanned: String?
+    val scanned: String?,
+    val request_value: String?,
     )
 
 class PersonRepository(context: Context) {
@@ -41,6 +42,7 @@ class PersonRepository(context: Context) {
             put("external_id", person.external_id)
             put("rut", person.rut.uppercase())
             put("scanned", person.scanned)
+            put("request_value", person.request_value)
         }
         return db.update(
             "persons",
@@ -70,6 +72,7 @@ class PersonRepository(context: Context) {
             val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
             val externalId = cursor.getInt(cursor.getColumnIndexOrThrow("external_id"))
             val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
+            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
 
             person = PersonDB(
                 id = id,
@@ -78,7 +81,8 @@ class PersonRepository(context: Context) {
                 email = email,
                 external_id = externalId,
                 rut = rut,
-                scanned = scanned
+                scanned = scanned,
+                request_value = request_value
             )
         }
         cursor.close()
@@ -105,6 +109,7 @@ class PersonRepository(context: Context) {
             val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
             val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
             val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
+            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
 
             person = PersonDB(
                 id = id,
@@ -113,7 +118,8 @@ class PersonRepository(context: Context) {
                 email = email,
                 external_id = external_id,
                 rut = rut,
-                scanned = scanned
+                scanned = scanned,
+                request_value = request_value
             )
         }
         cursor.close()
@@ -141,6 +147,7 @@ class PersonRepository(context: Context) {
             val externalId = cursor.getInt(cursor.getColumnIndexOrThrow("external_id"))
             val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
             val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
+            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
 
             person = PersonDB(
                 id = personId,
@@ -149,7 +156,8 @@ class PersonRepository(context: Context) {
                 email = email,
                 external_id = externalId,
                 rut = rut,
-                scanned = scanned
+                scanned = scanned,
+                request_value = request_value
             )
         }
         cursor.close()
@@ -162,6 +170,14 @@ class PersonRepository(context: Context) {
             put("scanned", scanned)
         }
         return db.update("persons", values, "rut = ?", arrayOf(rut))
+    }
+
+    fun updateResponseValue(id: Int, requestValue: String): Int {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("request_value", requestValue)
+        }
+        return db.update("persons", values, "id = ?", arrayOf(id.toString()))
     }
 
     fun getAllPersons(): List<PersonDB> {
@@ -178,7 +194,8 @@ class PersonRepository(context: Context) {
                 val external_id = getInt(getColumnIndexOrThrow("external_id"))
                 val rut = getString(getColumnIndexOrThrow("rut"))
                 val scanned = getString(getColumnIndexOrThrow("scanned"))
-                persons.add(PersonDB(id, first_name, last_name, email, external_id, rut, scanned))
+                val request_value = getString(getColumnIndexOrThrow("request_value"))
+                persons.add(PersonDB(id, first_name, last_name, email, external_id, rut, scanned,request_value))
             }
         }
 
@@ -242,8 +259,9 @@ class PersonRepository(context: Context) {
             val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
             val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
             val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
+            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
             cursor.close()
-            PersonDB(id, first_name, last_name, email, externalId, rut, scanned)
+            PersonDB(id, first_name, last_name, email, externalId, rut, scanned, request_value)
         } else {
             cursor.close()
             null
