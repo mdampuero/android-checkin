@@ -1,8 +1,10 @@
 package cl.clickgroup.checkin.data.repositories
 
+import android.R
 import android.content.ContentValues
 import cl.clickgroup.checkin.data.DatabaseHelper
 import android.content.Context
+import cl.clickgroup.checkin.network.requests.ExternalIdWithRequestValue
 import cl.clickgroup.checkin.network.responses.Person
 
 data class PersonDB(
@@ -13,7 +15,7 @@ data class PersonDB(
     val external_id: Int,
     val rut: String,
     val scanned: String?,
-    val request_value: String?,
+    var request_value: String?,
     )
 
 class PersonRepository(context: Context) {
@@ -203,6 +205,28 @@ class PersonRepository(context: Context) {
         return persons
     }
 
+    fun getAllExternalIdsAndRequestScannedIsApp(): List<ExternalIdWithRequestValue> {
+        val db = dbHelper.readableDatabase
+        val results = mutableListOf<ExternalIdWithRequestValue>()
+
+        val columns = arrayOf("external_id", "request_value")
+        val selection = "scanned = ?"
+        val selectionArgs = arrayOf("APP")
+
+        val cursor = db.query("persons", columns, selection, selectionArgs, null, null, null)
+
+        cursor?.use {
+            while (it.moveToNext()) {
+                val externalId = it.getInt(it.getColumnIndexOrThrow("external_id"))
+                val requestValue =
+                    it.getString(it.getColumnIndex("request_value")) // Puede ser null
+                results.add(ExternalIdWithRequestValue(externalId, requestValue))
+            }
+        }
+
+        return results
+
+    }
     fun getAllExternalIdsWhereScannedIsApp(): List<Int> {
         val db = dbHelper.readableDatabase
         val externalIds = mutableListOf<Int>()
@@ -232,7 +256,6 @@ class PersonRepository(context: Context) {
         cursor.close()
         return externalIds
     }
-
 
     fun truncatePersonsTable() {
         val db = dbHelper.writableDatabase

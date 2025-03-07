@@ -41,7 +41,6 @@ class DetailFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-
     }
 
     private fun loadPersonDetails(personId: Int) {
@@ -58,7 +57,6 @@ class DetailFragment : Fragment() {
         val ivNoCheckIn: ImageView = view.findViewById(R.id.IV_noCheckin)
 
         val btCheckIn: Button = view.findViewById(R.id.BT_checkIn)
-
 
         if (person != null) {
             tvFullName.text = "${person.first_name} ${person.last_name}"

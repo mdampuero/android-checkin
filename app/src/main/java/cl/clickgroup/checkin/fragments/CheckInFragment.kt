@@ -9,10 +9,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import retrofit2.Call
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -144,7 +142,8 @@ class CheckInFragment : Fragment() {
         val integrationId = SharedPreferencesUtils.getData(requireContext(), "integration_id")
         val sessionID = SharedPreferencesUtils.getData(requireContext(), "session_id")
         val registrantIDs = personRepository.getAllExternalIdsWhereScannedIsApp()
-        val call = RetrofitClient.apiService.getRegistrant(integrationId.toString(),sessionID.toString(), CheckInByRegistrantIDsRequest(registrantIDs))
+        val results = personRepository.getAllExternalIdsAndRequestScannedIsApp()
+        val call = RetrofitClient.apiService.getRegistrant(integrationId.toString(),sessionID.toString(), CheckInByRegistrantIDsRequest(registrantIDs, results))
         call.enqueue(object : retrofit2.Callback<IntegrationsRegistrantsResponse> {
             override fun onResponse(
                 call: Call<IntegrationsRegistrantsResponse>,
@@ -217,7 +216,7 @@ class CheckInFragment : Fragment() {
                                 external_id = personApi.id,
                                 rut = personApi.rut,
                                 scanned = personApi.scanned,
-                                request_value = ""
+                                request_value = personDB.request_value
                             )
                             personRepository.updatePerson(personDBUpdate)
                         }
