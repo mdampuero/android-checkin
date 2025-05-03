@@ -19,6 +19,7 @@ object SharedPreferencesUtils {
         key8: String, value8: String,
         key9: String, value9: String,
         key10: String, value10: Array<String>,
+        key11: String, value11: String,
     ) {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -33,7 +34,7 @@ object SharedPreferencesUtils {
         editor.putString(key8, value8)
         editor.putString(key9, value9)
         editor.putString(key10, value10.joinToString(","))
-
+        editor.putString(key11, value11)
         editor.apply()
     }
 

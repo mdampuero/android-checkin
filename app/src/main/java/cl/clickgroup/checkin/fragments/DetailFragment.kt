@@ -57,6 +57,7 @@ class DetailFragment : Fragment() {
         val ivNoCheckIn: ImageView = view.findViewById(R.id.IV_noCheckin)
 
         val btCheckIn: Button = view.findViewById(R.id.BT_checkIn)
+        val btPdf: Button = view.findViewById(R.id.BT_pdf)
 
         if (person != null) {
             tvFullName.text = "${person.first_name} ${person.last_name}"
@@ -89,6 +90,65 @@ class DetailFragment : Fragment() {
             btCheckIn.setOnClickListener {
                 CheckInUtils.checkInByRut(requireContext(), person.rut)
                 requireActivity().supportFragmentManager.popBackStack()
+            }
+
+            btPdf.setOnClickListener {
+                val pdfDocument = android.graphics.pdf.PdfDocument()
+                val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(300, 600, 1).create()
+                val page = pdfDocument.startPage(pageInfo)
+                val canvas = page.canvas
+                val paint = android.graphics.Paint()
+                paint.color = android.graphics.Color.BLACK
+                paint.textSize = 12f
+
+                var y = 25f
+                canvas.drawText("Ficha de Persona", 10f, y, paint)
+                y += 20f
+                canvas.drawText("Nombre: ${person.first_name} ${person.last_name}", 10f, y, paint)
+                y += 20f
+                canvas.drawText("Email: ${person.email}", 10f, y, paint)
+                y += 20f
+                canvas.drawText("Documento: ${person.rut}", 10f, y, paint)
+                y += 20f
+                canvas.drawText("ID Externo: ${person.external_id}", 10f, y, paint)
+
+                pdfDocument.finishPage(page)
+
+                try {
+                    val file = java.io.File(
+                        requireContext().getExternalFilesDir(null),
+                        "detalle_persona_${person.id}.pdf"
+                    )
+                    val outputStream = java.io.FileOutputStream(file)
+                    pdfDocument.writeTo(outputStream)
+                    outputStream.close()
+                    pdfDocument.close()
+
+                    //android.widget.Toast.makeText(requireContext(), "PDF guardado en ${file.absolutePath}", android.widget.Toast.LENGTH_LONG).show()
+
+                    // Abrir el PDF con FileProvider
+                    val uri = androidx.core.content.FileProvider.getUriForFile(
+                        requireContext(),
+                        "${requireContext().packageName}.provider",
+                        file
+                    )
+
+                    val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
+                        setDataAndType(uri, "application/pdf")
+                        flags = android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
+                    }
+
+                    try {
+                        startActivity(intent)
+                    } catch (e: android.content.ActivityNotFoundException) {
+                        android.widget.Toast.makeText(requireContext(), "No hay ninguna aplicación para abrir PDF", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    android.widget.Toast.makeText(requireContext(), "Error al generar el PDF", android.widget.Toast.LENGTH_SHORT).show()
+                    pdfDocument.close()
+                }
             }
         }
     }

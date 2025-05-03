@@ -18,12 +18,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.activities.BarcodeScanner
 import cl.clickgroup.checkin.activities.ScanActivity
 import cl.clickgroup.checkin.utils.CheckInUtils
 import cl.clickgroup.checkin.utils.RutValidatorUtils
+import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
 
 class ScanFragment : Fragment() {
@@ -32,6 +34,7 @@ class ScanFragment : Fragment() {
     private lateinit var etSearchByID: EditText
     private lateinit var etSearchByRut: EditText
     private lateinit var etSearchByURL: EditText
+    private lateinit var llSearchByID: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,6 +132,11 @@ class ScanFragment : Fragment() {
         /**
          * Search By ID
          */
+        val llSearchByID = view.findViewById<LinearLayout>(R.id.LL_searchByID)
+        val integration_type = SharedPreferencesUtils.getData(requireContext(), "integration_type")
+        if(integration_type == "REGISTER") {
+            llSearchByID.visibility = View.GONE
+        }
         val btSearchByID = view.findViewById<Button>(R.id.BT_searchByID)
         etSearchByID = view.findViewById<EditText>(R.id.ET_searchByID)
         etSearchByID.setOnEditorActionListener { _, actionId, _ ->

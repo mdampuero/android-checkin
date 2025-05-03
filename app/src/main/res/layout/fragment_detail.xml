@@ -123,4 +123,14 @@
         android:visibility="gone"
         android:text="@string/CHECK_IN">
     </androidx.appcompat.widget.AppCompatButton>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="8dp"
+        android:id="@+id/BT_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pink"
+        android:padding="0dp"
+        android:visibility="visible"
+        android:text="@string/PDF">
+    </androidx.appcompat.widget.AppCompatButton>
 </LinearLayout>

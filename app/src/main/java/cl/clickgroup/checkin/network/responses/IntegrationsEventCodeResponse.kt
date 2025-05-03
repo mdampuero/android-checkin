@@ -9,7 +9,8 @@ data class Integration(
     val request_options: Array<String>,
     val request_field: String,
     val request_input_type: String,
-    val request_label: String
+    val request_label: String,
+    val integration_type: String
 )
 data class IntegrationsEventCodeResponse(
     val result: Boolean,

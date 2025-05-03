@@ -95,6 +95,7 @@ class CodeEntryActivity : AppCompatActivity() {
         val request_input_type = integration.request_input_type
         val request_label = integration.request_label
         val request_options = integration.request_options
+        val integration_type = integration.integration_type
         SharedPreferencesUtils.saveData(
             applicationContext,
             "session_id", sessionId,
@@ -107,6 +108,7 @@ class CodeEntryActivity : AppCompatActivity() {
             "request_input_type", request_input_type,
             "request_label", request_label,
             "request_options", request_options,
+            "integration_type", integration_type,
         )
     }
     private fun goToMainScreen(needSync: Boolean) {

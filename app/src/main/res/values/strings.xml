@@ -1,7 +1,7 @@
 <resources>
     <!--
     <string name="EXAMPLE_RUT">26002138-9</string>
-    <string name="EXAMPLE_URL">httpsÑ-portal.sidiv.registrocivil.cl docstatus_RUN/17703992\'6/type¿CEDULA/serial¿529012364/mrz¿529012364891082643108262</string>
+    <string name="EXAMPLE_URL">https://portal.sidiv.registrocivil.cl/docstatus?RUN=26002138-9&amp;type=CEDULA_EXT&amp;serial=603641129&amp;mrz=603641129290123182809300</string>
     -->
     <string name="HINT_RUT">12345678-9</string>
     <string name="HINT_URL">Toque aquí para utilizar el lector</string>
@@ -77,4 +77,9 @@
     <string name="ENTER_RESPONSE">Respuesta...</string>
     <string name="ERROR_REGISTRANT_CREATE">Ha ocurrido un error al crear el registrante</string>
     <string name="REGISTRANT_CREATE_OK">Persona creada correctamente, vuelva sincronizar con el servidor</string>
+    <string name="INTEGRATION_TYPE">Tipo de integración</string>
+    <string name="integration_type_checkin">Check In</string>
+    <string name="integration_type_register">Registro</string>
+    <string name="NOT_APPLICABLE">No aplica</string>
+    <string name="PDF">Imprimir ticket</string>
 </resources>

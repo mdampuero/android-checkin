@@ -157,6 +157,7 @@
             app:layout_constraintTop_toBottomOf="@+id/CV_manualInput">
 
             <LinearLayout
+                android:id="@+id/LL_searchByID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

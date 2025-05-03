@@ -62,6 +62,12 @@ class CheckInFragment : Fragment() {
         arguments?.let {
             needSync = it.getBoolean("needSync", false)
         }
+
+        val integration_type = SharedPreferencesUtils.getData(requireContext(), "integration_type")
+        if(integration_type == "REGISTER") {
+            btAdd.visibility = View.GONE
+        }
+
         btAdd.setOnClickListener {
             val intent = Intent(requireActivity(), FormPerson::class.java)
             startActivity(intent)

@@ -27,6 +27,7 @@ class SettingFragment : Fragment() {
     private lateinit var etEventIDValue: TextView
     private lateinit var etCheckInBySearchValue: TextView
     private lateinit var etRequestValue: TextView
+    private lateinit var etType: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +39,7 @@ class SettingFragment : Fragment() {
         etEventIDValue = view.findViewById<TextView>(R.id.TV_eventIDValue)
         etCheckInBySearchValue = view.findViewById<TextView>(R.id.TV_checkInBySearchValue)
         etRequestValue = view.findViewById<TextView>(R.id.TV_requestValue)
-
+        etType = view.findViewById<TextView>(R.id.TV_typeValue)
         init()
         btClearDatabase.setOnClickListener {
             confirmationDialogClearDatabase()
@@ -50,20 +51,35 @@ class SettingFragment : Fragment() {
     private fun init() {
         val session_id = SharedPreferencesUtils.getData(requireContext(), "session_id")
         val event_name = SharedPreferencesUtils.getData(requireContext(), "event_name")
+        val integration_type = SharedPreferencesUtils.getData(requireContext(), "integration_type")
         val event_id = SharedPreferencesUtils.getData(requireContext(), "event_id")
         val extraOption = SharedPreferencesUtils.getDataBoolean(requireContext(), "extraOption")
         val request = SharedPreferencesUtils.getDataBoolean(requireContext(), "request")
         etEventCodeValue.text = session_id
         etEventNameValue.text = event_name
         etEventIDValue.text = event_id
-        if(extraOption){
-            etCheckInBySearchValue.text = getString(R.string.YES)
-        }else{
-            etCheckInBySearchValue.text = getString(R.string.NO)
+
+        //
+        val translatedType = when (integration_type) {
+            "CHECKIN" -> getString(R.string.integration_type_checkin)
+            "REGISTER" -> getString(R.string.integration_type_register)
+            else -> integration_type
         }
-        if(request){
-            etRequestValue.text = getString(R.string.YES)
+        etType.text =translatedType
+
+        if(integration_type == "CHECKIN") {
+            if(extraOption){
+                etCheckInBySearchValue.text = getString(R.string.YES)
+            }else{
+                etCheckInBySearchValue.text = getString(R.string.NO)
+            }
         }else{
+            etCheckInBySearchValue.text = getString(R.string.NOT_APPLICABLE)
+        }
+
+        if (request) {
+            etRequestValue.text = getString(R.string.YES)
+        } else {
             etRequestValue.text = getString(R.string.NO)
         }
         personRepository = PersonRepository(requireContext())

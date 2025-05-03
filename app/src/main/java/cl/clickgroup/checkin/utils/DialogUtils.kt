@@ -81,6 +81,7 @@ object DialogUtils {
         val requestField = SharedPreferencesUtils.getData(context, "request_field")
         val requestInputType = SharedPreferencesUtils.getData(context, "request_input_type")
         val requestOptions = SharedPreferencesUtils.getData(context, "request_options")
+        val integrationId = SharedPreferencesUtils.getData(context, "integration_id")
         val optionsArray = requestOptions?.split(",")?.toTypedArray() ?: emptyArray()
 
         if (request && person != null && person.external_id > 0) {
@@ -114,9 +115,11 @@ object DialogUtils {
 
                 // UDPDATE RESPONSE
                 PersonRepository(context).updateResponseValue(person.id, requestResponse)
-
+                Log.d("DialogUtils", person.id.toString())
+                Log.d("DialogUtils", requestResponse)
                 val call: Call<Void> = apiService.sendRequest(
                     ResponseRequest(
+                        integrationId,
                         requestField,
                         person.external_id,
                         requestResponse
