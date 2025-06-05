@@ -45,6 +45,8 @@ object CheckInUtils {
                     rut = rut,
                     scanned = "",
                     request_value = "",
+                    company = "",
+                    job_title = ""
                 )
 
                 val generatedId = personRepository.insertPerson(personDB)
@@ -52,6 +54,7 @@ object CheckInUtils {
 
                 syncCheckIn(context, rut)
                 DialogUtils.showCustomDialog(context, "success", context.getString(string.CHECKIN_SUCCESS), savedPerson)
+
             }else{
                 DialogUtils.showCustomDialog(context, "warning", context.getString(string.PERSON_NOT_FOUND))
             }

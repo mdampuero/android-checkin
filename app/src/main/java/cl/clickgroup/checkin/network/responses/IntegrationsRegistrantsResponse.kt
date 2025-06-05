@@ -4,9 +4,11 @@ data class Person(
     val first_name: String,
     val last_name: String,
     val email: String,
-    val mobile_phone: String,
+    val mobile_company: String,
     val rut: String,
-    val scanned: String?
+    val scanned: String?,
+    val company: String?,
+    val job_title: String?
 )
 data class IntegrationsRegistrantsResponse(
     val total: Int,

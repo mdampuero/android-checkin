@@ -16,6 +16,7 @@ import cl.clickgroup.checkin.network.responses.IntegrationsEventCodeResponse
 import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -84,13 +85,16 @@ class CodeEntryActivity : AppCompatActivity() {
     }
 
     private fun saveResultEventCode(responseData: IntegrationsEventCodeResponse){
+
         val integration = responseData.data
+        val printFieldsJson = Gson().toJson(integration.print_fields)
         val integrationId = integration.integration_id
         val eventId = integration.event_id
         val sessionId = integration.session_id
-        val eventName = integration.event_name
         val extraOption = integration.extraOption
+        val eventName = integration.event_name
         val request = integration.request
+        val print = integration.print
         val request_field = integration.request_field
         val request_input_type = integration.request_input_type
         val request_label = integration.request_label
@@ -109,6 +113,8 @@ class CodeEntryActivity : AppCompatActivity() {
             "request_label", request_label,
             "request_options", request_options,
             "integration_type", integration_type,
+            "print", print,
+            "print_fields", printFieldsJson
         )
     }
     private fun goToMainScreen(needSync: Boolean) {

@@ -29,8 +29,8 @@ class PersonAdapter(private var personList: List<PersonDB>) :
         return PersonViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
-        val person = personList[position]
+    override fun onBindViewHolder(holder: PersonViewHolder, job_title: Int) {
+        val person = personList[job_title]
         holder.tvName.text = "${person.first_name} ${person.last_name}"
         holder.tvRut.text = "RUT: ${person.rut} - ID: ${person.external_id}"
         if(!person.scanned.isNullOrEmpty()){

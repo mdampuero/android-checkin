@@ -1,11 +1,9 @@
 package cl.clickgroup.checkin.data.repositories
 
-import android.R
 import android.content.ContentValues
-import cl.clickgroup.checkin.data.DatabaseHelper
 import android.content.Context
+import cl.clickgroup.checkin.data.DatabaseHelper
 import cl.clickgroup.checkin.network.requests.ExternalIdWithRequestValue
-import cl.clickgroup.checkin.network.responses.Person
 
 data class PersonDB(
     val id: Int = 0,
@@ -16,13 +14,15 @@ data class PersonDB(
     val rut: String,
     val scanned: String?,
     var request_value: String?,
-    )
+    val company: String?,
+    val job_title: String?
+)
 
 class PersonRepository(context: Context) {
 
     private val dbHelper = DatabaseHelper(context)
 
-    public fun insertPerson(person: PersonDB): Long {
+    fun insertPerson(person: PersonDB): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put("first_name", person.first_name)
@@ -31,6 +31,9 @@ class PersonRepository(context: Context) {
             put("external_id", person.external_id)
             put("rut", person.rut.uppercase())
             put("scanned", person.scanned)
+            put("request_value", person.request_value)
+            put("company", person.company)
+            put("job_title", person.job_title)
         }
         return db.insert("persons", null, values)
     }
@@ -45,123 +48,47 @@ class PersonRepository(context: Context) {
             put("rut", person.rut.uppercase())
             put("scanned", person.scanned)
             put("request_value", person.request_value)
+            put("company", person.company)
+            put("job_title", person.job_title)
         }
-        return db.update(
-            "persons",
-            values,
-            "id = ?", // Selección basada en el ID de la base de datos
-            arrayOf(person.id.toString())
+        return db.update("persons", values, "id = ?", arrayOf(person.id.toString()))
+    }
+
+    private fun fromCursor(cursor: android.database.Cursor): PersonDB {
+        return PersonDB(
+            id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+            first_name = cursor.getString(cursor.getColumnIndexOrThrow("first_name")),
+            last_name = cursor.getString(cursor.getColumnIndexOrThrow("last_name")),
+            email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
+            external_id = cursor.getInt(cursor.getColumnIndexOrThrow("external_id")),
+            rut = cursor.getString(cursor.getColumnIndexOrThrow("rut")),
+            scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned")),
+            request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value")),
+            company = cursor.getString(cursor.getColumnIndexOrThrow("company")),
+            job_title = cursor.getString(cursor.getColumnIndexOrThrow("job_title"))
         )
     }
 
     fun getPersonByRut(rut: String): PersonDB? {
         val db = dbHelper.readableDatabase
-        var person: PersonDB? = null
-        val cursor = db.query(
-            "persons",
-            null,
-            "rut = ?",
-            arrayOf(rut),
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-            val firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"))
-            val lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"))
-            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
-            val externalId = cursor.getInt(cursor.getColumnIndexOrThrow("external_id"))
-            val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
-            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
-
-            person = PersonDB(
-                id = id,
-                first_name = firstName,
-                last_name = lastName,
-                email = email,
-                external_id = externalId,
-                rut = rut,
-                scanned = scanned,
-                request_value = request_value
-            )
-        }
+        val cursor = db.query("persons", null, "rut = ?", arrayOf(rut), null, null, null)
+        val person = if (cursor.moveToFirst()) fromCursor(cursor) else null
         cursor.close()
         return person
     }
 
     fun getPersonByExternalID(external_id: Int): PersonDB? {
         val db = dbHelper.readableDatabase
-        var person: PersonDB? = null
-        val cursor = db.query(
-            "persons",
-            null,
-            "external_id = ?",
-            arrayOf(external_id.toString()),
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-            val firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"))
-            val lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"))
-            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
-            val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
-            val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
-            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
-
-            person = PersonDB(
-                id = id,
-                first_name = firstName,
-                last_name = lastName,
-                email = email,
-                external_id = external_id,
-                rut = rut,
-                scanned = scanned,
-                request_value = request_value
-            )
-        }
+        val cursor = db.query("persons", null, "external_id = ?", arrayOf(external_id.toString()), null, null, null)
+        val person = if (cursor.moveToFirst()) fromCursor(cursor) else null
         cursor.close()
         return person
     }
 
     fun getPersonById(id: Int): PersonDB? {
         val db = dbHelper.readableDatabase
-        var person: PersonDB? = null
-        val cursor = db.query(
-            "persons",
-            null,
-            "id = ?", // Condición para buscar por ID
-            arrayOf(id.toString()), // Convertimos el ID a String
-            null,
-            null,
-            null
-        )
-
-        if (cursor.moveToFirst()) {
-            val personId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-            val firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"))
-            val lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"))
-            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
-            val externalId = cursor.getInt(cursor.getColumnIndexOrThrow("external_id"))
-            val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
-            val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
-            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
-
-            person = PersonDB(
-                id = personId,
-                first_name = firstName,
-                last_name = lastName,
-                email = email,
-                external_id = externalId,
-                rut = rut,
-                scanned = scanned,
-                request_value = request_value
-            )
-        }
+        val cursor = db.query("persons", null, "id = ?", arrayOf(id.toString()), null, null, null)
+        val person = if (cursor.moveToFirst()) fromCursor(cursor) else null
         cursor.close()
         return person
     }
@@ -186,21 +113,11 @@ class PersonRepository(context: Context) {
         val db = dbHelper.readableDatabase
         val cursor = db.query("persons", null, null, null, null, null, null)
         val persons = mutableListOf<PersonDB>()
-
         with(cursor) {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow("id"))
-                val first_name = getString(getColumnIndexOrThrow("first_name"))
-                val last_name = getString(getColumnIndexOrThrow("last_name"))
-                val email = getString(getColumnIndexOrThrow("email"))
-                val external_id = getInt(getColumnIndexOrThrow("external_id"))
-                val rut = getString(getColumnIndexOrThrow("rut"))
-                val scanned = getString(getColumnIndexOrThrow("scanned"))
-                val request_value = getString(getColumnIndexOrThrow("request_value"))
-                persons.add(PersonDB(id, first_name, last_name, email, external_id, rut, scanned,request_value))
+                persons.add(fromCursor(this))
             }
         }
-
         cursor.close()
         return persons
     }
@@ -208,51 +125,34 @@ class PersonRepository(context: Context) {
     fun getAllExternalIdsAndRequestScannedIsApp(): List<ExternalIdWithRequestValue> {
         val db = dbHelper.readableDatabase
         val results = mutableListOf<ExternalIdWithRequestValue>()
-
-        val columns = arrayOf("external_id", "request_value")
-        val selection = "scanned = ?"
-        val selectionArgs = arrayOf("APP")
-
-        val cursor = db.query("persons", columns, selection, selectionArgs, null, null, null)
-
-        cursor?.use {
-            while (it.moveToNext()) {
-                val externalId = it.getInt(it.getColumnIndexOrThrow("external_id"))
-                val requestValue =
-                    it.getString(it.getColumnIndex("request_value")) // Puede ser null
-                results.add(ExternalIdWithRequestValue(externalId, requestValue))
-            }
-        }
-
-        return results
-
-    }
-    fun getAllExternalIdsWhereScannedIsApp(): List<Int> {
-        val db = dbHelper.readableDatabase
-        val externalIds = mutableListOf<Int>()
-
-        val columns = arrayOf("external_id")
-
-        val selection = "scanned = ?"
-        val selectionArgs = arrayOf("APP")
-
         val cursor = db.query(
             "persons",
-            columns,
-            selection,
-            selectionArgs,
+            arrayOf("external_id", "request_value"),
+            "scanned = ?",
+            arrayOf("APP"),
             null,
             null,
             null
         )
-
-        with(cursor) {
-            while (moveToNext()) {
-                val external_id = getInt(getColumnIndexOrThrow("external_id"))
-                externalIds.add(external_id)
+        cursor?.use {
+            while (it.moveToNext()) {
+                val externalId = it.getInt(it.getColumnIndexOrThrow("external_id"))
+                val requestValue = it.getString(it.getColumnIndexOrThrow("request_value"))
+                results.add(ExternalIdWithRequestValue(externalId, requestValue))
             }
         }
+        return results
+    }
 
+    fun getAllExternalIdsWhereScannedIsApp(): List<Int> {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query("persons", arrayOf("external_id"), "scanned = ?", arrayOf("APP"), null, null, null)
+        val externalIds = mutableListOf<Int>()
+        with(cursor) {
+            while (moveToNext()) {
+                externalIds.add(getInt(getColumnIndexOrThrow("external_id")))
+            }
+        }
         cursor.close()
         return externalIds
     }
@@ -266,56 +166,15 @@ class PersonRepository(context: Context) {
     fun getPersonByExternalId(externalId: Int): PersonDB? {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
-            "persons",
-            null, // Columns - null selects all columns
-            "external_id = ?", // Selection
-            arrayOf(externalId.toString()), // Selection args
-            null, // Group by
-            null, // Having
-            null // Order by
+            "persons", null, "external_id = ?", arrayOf(externalId.toString()), null, null, null
         )
-
         return if (cursor.moveToFirst()) {
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-            val first_name = cursor.getString(cursor.getColumnIndexOrThrow("first_name"))
-            val last_name = cursor.getString(cursor.getColumnIndexOrThrow("last_name"))
-            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
-            val rut = cursor.getString(cursor.getColumnIndexOrThrow("rut"))
-            val scanned = cursor.getString(cursor.getColumnIndexOrThrow("scanned"))
-            val request_value = cursor.getString(cursor.getColumnIndexOrThrow("request_value"))
+            val person = fromCursor(cursor)
             cursor.close()
-            PersonDB(id, first_name, last_name, email, externalId, rut, scanned, request_value)
+            person
         } else {
             cursor.close()
             null
         }
     }
-
-
-   /*fun getPersonaById(id: Int): Persona? {
-        val db = dbHelper.readableDatabase
-        val cursor = db.query(
-            "personas",
-            null,
-            "id = ?",
-            arrayOf(id.toString()),
-            null,
-            null,
-            null
-        )
-        return if (cursor.moveToFirst()) {
-            val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
-            val edad = cursor.getInt(cursor.getColumnIndexOrThrow("edad"))
-            Persona(id, nombre, edad)
-        } else {
-            null
-        }.also {
-            cursor.close()
-        }
-    }
-
-    fun deletePersonaById(id: Int) {
-        val db = dbHelper.writableDatabase
-        db.delete("personas", "id = ?", arrayOf(id.toString()))
-    }*/
 }

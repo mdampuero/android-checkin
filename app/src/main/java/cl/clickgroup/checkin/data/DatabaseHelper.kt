@@ -21,7 +21,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
                 email TEXT,
                 rut NOT NULL,
                 scanned TEXT,
-                request_value TEXT
+                request_value TEXT,
+                company TEXT,
+                job_title TEXT
             );
         """.trimIndent()
 
@@ -37,6 +39,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         val createIndexPersons = """
             CREATE INDEX idx_external_id ON persons(external_id);
         """.trimIndent()
+
         db.execSQL(createPersonsTable)
         db.execSQL(createCheckinsTable)
         db.execSQL(createIndexPersons)

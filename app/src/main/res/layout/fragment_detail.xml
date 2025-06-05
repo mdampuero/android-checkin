@@ -95,6 +95,43 @@
         android:text=""
         android:textColor="@color/white_600"
         android:textSize="16sp" />
+
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:id="@+id/TV_company_label"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/COMPANY"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/ET_company_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/white_600"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:id="@+id/TV_job_title_label"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/POSITION"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/ET_job_title_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/white_600"
+        android:textSize="16sp" />
     <TextView
         android:layout_marginTop="24dp"
         android:id="@+id/TV_externalId_label"
@@ -106,7 +143,7 @@
 
     <TextView
         android:layout_marginTop="8dp"
-        android:id="@+id/ET_phone_value"
+        android:id="@+id/ET_externalId_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -124,13 +161,13 @@
         android:text="@string/CHECK_IN">
     </androidx.appcompat.widget.AppCompatButton>
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:id="@+id/BT_pdf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/pink"
         android:padding="0dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:text="@string/PDF">
     </androidx.appcompat.widget.AppCompatButton>
 </LinearLayout>

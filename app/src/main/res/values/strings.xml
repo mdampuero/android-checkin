@@ -66,7 +66,7 @@
     <string name="FIRST_NAME">Nombre</string>
     <string name="LAST_NAME">Apellido</string>
     <string name="SAVE">Guardar</string>
-    <string name="PHONE">Teléfono</string>
+    <string name="COMPANY">Empresa</string>
     <string name="ERROR_FIRST_NAME_EMPTY">El nombre no puede estar vacío</string>
     <string name="ERROR_FIRST_NAME_SHORT">El nombre debe tener al menos 2 caracteres</string>
     <string name="ERROR_LAST_NAME_EMPTY">El apellido no puede estar vacío</string>
@@ -82,4 +82,5 @@
     <string name="integration_type_register">Registro</string>
     <string name="NOT_APPLICABLE">No aplica</string>
     <string name="PDF">Imprimir ticket</string>
+    <string name="POSITION">Cargo</string>
 </resources>

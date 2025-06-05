@@ -2,6 +2,7 @@ package cl.clickgroup.checkin.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import cl.clickgroup.checkin.fragments.PrintField
 
 object SharedPreferencesUtils {
 
@@ -20,6 +21,9 @@ object SharedPreferencesUtils {
         key9: String, value9: String,
         key10: String, value10: Array<String>,
         key11: String, value11: String,
+        key12: String, value12: Boolean,
+        key13: String, value13: String,
+
     ) {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -35,6 +39,8 @@ object SharedPreferencesUtils {
         editor.putString(key9, value9)
         editor.putString(key10, value10.joinToString(","))
         editor.putString(key11, value11)
+        editor.putBoolean(key12, value12)
+        editor.putString(key13, value13)
         editor.apply()
     }
 

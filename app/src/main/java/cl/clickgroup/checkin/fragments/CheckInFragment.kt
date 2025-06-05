@@ -205,6 +205,8 @@ class CheckInFragment : Fragment() {
                         rut = personApi.rut,
                         scanned = personApi.scanned,
                         request_value = "",
+                        company = personApi.company,
+                        job_title = personApi.job_title
                     )
                     personRepository.insertPerson(personDB)
                 }else{
@@ -222,7 +224,9 @@ class CheckInFragment : Fragment() {
                                 external_id = personApi.id,
                                 rut = personApi.rut,
                                 scanned = personApi.scanned,
-                                request_value = personDB.request_value
+                                request_value = personDB.request_value,
+                                company = personDB.company,
+                                job_title = personDB.job_title
                             )
                             personRepository.updatePerson(personDBUpdate)
                         }

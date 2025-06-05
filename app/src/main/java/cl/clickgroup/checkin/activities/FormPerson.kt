@@ -37,7 +37,8 @@ class FormPerson : AppCompatActivity() {
         val lastNameEditText = findViewById<EditText>(R.id.ET_lastName_value)
         val emailEditText = findViewById<EditText>(R.id.ET_email_value)
         val documentEditText = findViewById<EditText>(R.id.ET_document_value)
-        val phoneEditText = findViewById<EditText>(R.id.ET_phone_value)
+        val companyEditText = findViewById<EditText>(R.id.ET_company_value)
+        val job_titleEditText = findViewById<EditText>(R.id.ET_job_title_value)
         progressBar = findViewById(R.id.progressBar)
 
         btnBack.setOnClickListener {
@@ -49,7 +50,8 @@ class FormPerson : AppCompatActivity() {
             val lastName = lastNameEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
             val document = documentEditText.text.toString().trim()
-            val phone = phoneEditText.text.toString().trim()
+            val company = companyEditText.text.toString().trim()
+            val job_title = job_titleEditText.text.toString().trim()
 
             if (firstName.isEmpty()) {
                 firstNameEditText.error = getString(R.string.ERROR_FIRST_NAME_EMPTY)
@@ -81,7 +83,14 @@ class FormPerson : AppCompatActivity() {
             }
 
             progressBar.visibility = View.VISIBLE
-            val call = RetrofitClient.apiService.registrant(RegistrantRequest(firstName,lastName,email,phone, document, event_id = SharedPreferencesUtils.getData(applicationContext, "event_id") ))
+            val call = RetrofitClient.apiService.registrant(RegistrantRequest(
+                firstName,
+                lastName,
+                email,
+                company,
+                document,
+                job_title,
+                event_id = SharedPreferencesUtils.getData(applicationContext, "event_id") ))
             call.enqueue(object : Callback<RegistrantResponse> {
                 override fun onResponse(
                     call: Call<RegistrantResponse>,

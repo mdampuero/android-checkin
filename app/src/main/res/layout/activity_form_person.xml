@@ -119,32 +119,55 @@
         android:singleLine="true"
         android:textColor="@color/white_600"
         android:textSize="16sp" />
+
     <TextView
         app:layout_constraintTop_toBottomOf="@id/ET_document_value"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="24dp"
-        android:id="@+id/TV_phone_label"
+        android:id="@+id/TV_company_label"
         android:layout_width="wrap_content"
         android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:text="@string/PHONE"
+        android:text="@string/COMPANY"
         android:textSize="16sp" />
 
     <EditText
-        app:layout_constraintTop_toBottomOf="@id/TV_phone_label"
+        app:layout_constraintTop_toBottomOf="@id/TV_company_label"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
-        android:id="@+id/ET_phone_value"
+        android:id="@+id/ET_company_value"
         android:layout_width="match_parent"
-        android:inputType="phone"
+        android:inputType="text"
         android:layout_height="wrap_content"
         android:text=""
         android:singleLine="true"
         android:textColor="@color/white_600"
         android:textSize="16sp" />
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/ET_company_value"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="24dp"
+        android:id="@+id/TV_job_title_label"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/POSITION"
+        android:textSize="16sp" />
 
+    <EditText
+        app:layout_constraintTop_toBottomOf="@id/TV_job_title_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="8dp"
+        android:id="@+id/ET_job_title_value"
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:singleLine="true"
+        android:textColor="@color/white_600"
+        android:textSize="16sp" />
     <androidx.appcompat.widget.AppCompatButton
-        app:layout_constraintTop_toBottomOf="@id/ET_phone_value"
+        app:layout_constraintTop_toBottomOf="@id/ET_job_title_value"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="32dp"
         android:id="@+id/BT_save"

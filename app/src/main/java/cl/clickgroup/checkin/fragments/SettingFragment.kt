@@ -20,6 +20,11 @@ import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
 import kotlin.math.log
 
+data class PrintField(
+    val field: String,
+    val style: String
+)
+
 class SettingFragment : Fragment() {
     private lateinit var personRepository: PersonRepository
     private lateinit var etEventCodeValue: TextView
