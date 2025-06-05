@@ -22,6 +22,28 @@ class PersonRepository(context: Context) {
 
     private val dbHelper = DatabaseHelper(context)
 
+    fun getTotalCount(): Int {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM persons", null)
+        var total = 0
+        if (cursor.moveToFirst()) {
+            total = cursor.getInt(0)
+        }
+        cursor.close()
+        return total
+    }
+
+    fun getScannedCount(): Int {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM persons WHERE scanned IS NOT NULL AND scanned != ''", null)
+        var total = 0
+        if (cursor.moveToFirst()) {
+            total = cursor.getInt(0)
+        }
+        cursor.close()
+        return total
+    }
+
     fun insertPerson(person: PersonDB): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {

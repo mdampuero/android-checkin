@@ -35,6 +35,7 @@ class CheckInFragment : Fragment() {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
+    private lateinit var tvTotal: TextView
     private lateinit var personRepository: PersonRepository
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PersonAdapter
@@ -50,6 +51,8 @@ class CheckInFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_checkin, container, false)
         val btRefresh = view.findViewById<ImageView>(R.id.BT_refresh)
         val btAdd = view.findViewById<ImageView>(R.id.BT_add)
+
+        tvTotal = view.findViewById(R.id.tv_total)
 
         progressBar = view.findViewById(R.id.progressBar)
         progressText = view.findViewById(R.id.progressText)
@@ -137,6 +140,10 @@ class CheckInFragment : Fragment() {
 
     private fun init() {
         personRepository = PersonRepository(requireContext())
+        val totalCount = personRepository.getTotalCount()
+        val scannedCount = personRepository.getScannedCount()
+        tvTotal.text = "Check-in: $scannedCount/$totalCount"
+        Log.d("CheckInFragment", "Total con check-in: $scannedCount / $totalCount")
         if(needSync){
             fetchData()
         }
