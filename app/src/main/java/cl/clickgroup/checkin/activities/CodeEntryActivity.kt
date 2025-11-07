@@ -1,6 +1,5 @@
 package cl.clickgroup.checkin.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +9,11 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import cl.clickgroup.checkin.R
-import cl.clickgroup.checkin.network.ApiService
+import cl.clickgroup.checkin.network.AuthCredentials
 import cl.clickgroup.checkin.network.RetrofitClient
+import cl.clickgroup.checkin.network.requests.LoginRequest
 import cl.clickgroup.checkin.network.responses.IntegrationsEventCodeResponse
-import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
+import cl.clickgroup.checkin.network.responses.LoginResponse
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
 import com.google.gson.Gson
@@ -39,17 +39,48 @@ class CodeEntryActivity : AppCompatActivity() {
         buttonSubmit.setOnClickListener {
             val enteredCode = editTextCode.text.toString()
             if (enteredCode.length in 6..7) {
-                checkEventCode(enteredCode)
+                authenticateAndCheckEventCode(enteredCode)
             } else {
                 ToastUtils.showCenteredToast(this, this.getString(R.string.EVENT_CODE_INVALID))
             }
         }
     }
 
-    private fun checkEventCode(enteredCode:String) {
-        Log.d("CodeEntryActivity", "Le pego al endpoint")
+    private fun authenticateAndCheckEventCode(enteredCode: String) {
+        Log.d("CodeEntryActivity", "Authenticating user before requesting event code")
         progressBar.visibility = View.VISIBLE
-        val call = RetrofitClient.apiService.checkEventCode(enteredCode)
+        val loginCall = RetrofitClient.apiService.login(
+            LoginRequest(AuthCredentials.EMAIL, AuthCredentials.PASSWORD)
+        )
+
+        loginCall.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (!response.isSuccessful) {
+                    handleAuthenticationError()
+                    return
+                }
+
+                val token = response.body()?.token
+                if (token.isNullOrEmpty()) {
+                    handleAuthenticationError()
+                    return
+                }
+
+                SharedPreferencesUtils.saveSingleData(applicationContext, AuthCredentials.TOKEN_KEY, token)
+                requestEventCode(token, enteredCode)
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.d("CodeEntryActivity", "Authentication failed: ${t.message}")
+                handleAuthenticationError()
+                t.printStackTrace()
+            }
+        })
+    }
+
+    private fun requestEventCode(token: String, enteredCode: String) {
+        Log.d("CodeEntryActivity", "Requesting event code with authenticated session")
+        val call = RetrofitClient.apiService.checkEventCode("Bearer $token", enteredCode)
         call.enqueue(object : Callback<IntegrationsEventCodeResponse> {
             override fun onResponse(
                 call: Call<IntegrationsEventCodeResponse>,
@@ -83,6 +114,11 @@ class CodeEntryActivity : AppCompatActivity() {
                 t.printStackTrace()
             }
         })
+    }
+
+    private fun handleAuthenticationError() {
+        progressBar.visibility = View.GONE
+        ToastUtils.showCenteredToast(applicationContext, getString(R.string.EVENT_CODE_INVALID))
     }
 
     private fun saveResultEventCode(responseData: IntegrationsEventCodeResponse){

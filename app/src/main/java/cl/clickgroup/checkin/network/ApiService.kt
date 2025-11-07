@@ -4,6 +4,7 @@ import androidx.annotation.Nullable
 import cl.clickgroup.checkin.network.requests.CheckInByRegistrantIDsRequest
 import cl.clickgroup.checkin.network.requests.CheckInByRegistrantRequest
 import cl.clickgroup.checkin.network.requests.CheckInByRutRequest
+import cl.clickgroup.checkin.network.requests.LoginRequest
 import cl.clickgroup.checkin.network.requests.RegistrantRequest
 import cl.clickgroup.checkin.network.requests.ResponseRequest
 import cl.clickgroup.checkin.network.responses.CheckInByRegistrantIDsResponse
@@ -12,9 +13,11 @@ import cl.clickgroup.checkin.network.responses.IntegrationsEventCodeResponse
 import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
 import cl.clickgroup.checkin.network.responses.CheckInByRutResponse
 import cl.clickgroup.checkin.network.responses.RegistrantResponse
+import cl.clickgroup.checkin.network.responses.LoginResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -24,11 +27,18 @@ interface ApiService {
      */
 
     @GET("clickgroup/integrations/getBySessionId/{sessionId}")
-    fun checkEventCode(@Path("sessionId") sessionId: String): Call<IntegrationsEventCodeResponse>
+    fun checkEventCode(
+        @Header("Authorization") authorizationHeader: String,
+        @Path("sessionId") sessionId: String
+    ): Call<IntegrationsEventCodeResponse>
 
     /**
      * POSTs
      */
+
+    @POST("auth/login")
+    fun login(@Body input: LoginRequest): Call<LoginResponse>
+
     @POST("checkins/byRut")
     fun checkInByRut(@Body input: CheckInByRutRequest): Call<CheckInByRutResponse>
 
