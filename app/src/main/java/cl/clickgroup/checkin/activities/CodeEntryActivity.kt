@@ -58,6 +58,7 @@ class CodeEntryActivity : AppCompatActivity() {
                 Log.d("CodeEntryActivity", "Responde OK")
                 progressBar.visibility = View.GONE
                 try {
+                    Log.d("CodeEntryActivity", "Status code: ${response.code()}")
                     if (!response.isSuccessful) {
                         ToastUtils.showCenteredToast(applicationContext, getString(R.string.EVENT_CODE_INVALID))
                     } else {

@@ -23,7 +23,7 @@ interface ApiService {
      * GETs
      */
 
-    @GET("integrations/getBySessionId/{sessionId}")
+    @GET("clickgroup/integrations/getBySessionId/{sessionId}")
     fun checkEventCode(@Path("sessionId") sessionId: String): Call<IntegrationsEventCodeResponse>
 
     /**
