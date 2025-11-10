@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.cli.jvm.main
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -35,6 +37,18 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    sourceSets{
+        getByName("main"){
+            aidl{
+                srcDirs("src/main/aidl")
+            }
+        }
+    }
+
+    buildFeatures{
+        aidl = true
+    }
 }
 
 dependencies {
@@ -68,4 +82,10 @@ dependencies {
     implementation ("androidx.camera:camera-core:1.0.0")
     implementation ("androidx.camera:camera-camera2:1.0.0")
     implementation ("androidx.camera:camera-lifecycle:1.0.0")
+
+    //Sunmi Printer
+    implementation ("com.sunmi:printerlibrary:1.0.23")
+    implementation(fileTree("libs"){
+        include("*.jar", "*.aar")
+    })
 }

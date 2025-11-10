@@ -5,169 +5,184 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-    <ImageButton
-        android:scaleType="fitCenter"
-        android:id="@+id/btnBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_back"
-        android:layout_marginBottom="36dp"
-        android:contentDescription="@string/BACK"
-        app:tint="@color/pink" />
-    <ImageView
-        android:id="@+id/IV_checkin"
-        android:layout_width="100dp"
-        android:layout_gravity="center"
-        android:layout_height="100dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_check_solid"
-        app:tint="@color/success" />
 
-    <ImageView
-        android:id="@+id/IV_noCheckin"
-        android:layout_width="100dp"
-        android:layout_gravity="center"
-        android:layout_height="100dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_check_solid"
-        app:tint="@color/white_100" />
-
-    <ImageView
-        android:id="@+id/IV_checkinLocal"
-        android:layout_width="100dp"
-        android:layout_gravity="center"
-        android:layout_height="100dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_check_solid"
-        app:tint="@color/warning" />
-
-    <TextView
-        android:layout_marginTop="32dp"
-        android:id="@+id/TV_fullName_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/FULLNAME"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/TV_fullName_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="24dp"
-        android:id="@+id/TV_email_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/EMAIL"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/TV_email_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="24dp"
-        android:id="@+id/TV_document_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/DOCUMENT"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/ET_document_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-
-
-    <TextView
-        android:layout_marginTop="24dp"
-        android:id="@+id/TV_company_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/COMPANY"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/ET_company_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="24dp"
-        android:id="@+id/TV_job_title_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/POSITION"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/ET_job_title_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-    <TextView
-        android:layout_marginTop="24dp"
-        android:id="@+id/TV_externalId_label"
-        android:layout_width="wrap_content"
-        android:textStyle="bold"
-        android:layout_height="wrap_content"
-        android:text="@string/EXTERNAL_ID"
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_marginTop="8dp"
-        android:id="@+id/ET_externalId_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="@color/white_600"
-        android:textSize="16sp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="32dp"
-        android:id="@+id/BT_checkIn"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pink"
-        android:padding="0dp"
-        android:visibility="gone"
-        android:text="@string/CHECK_IN">
-    </androidx.appcompat.widget.AppCompatButton>
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="32dp"
-        android:id="@+id/BT_pdf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pink"
-        android:padding="0dp"
-        android:visibility="gone"
-        android:text="@string/PDF">
-    </androidx.appcompat.widget.AppCompatButton>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/BACK"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_back"
+                app:tint="@color/pink" />
+
+            <ImageView
+                android:id="@+id/IV_checkin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_check_solid"
+                app:tint="@color/success" />
+
+            <ImageView
+                android:id="@+id/IV_noCheckin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_check_solid"
+                app:tint="@color/white_100" />
+
+            <ImageView
+                android:id="@+id/IV_checkinLocal"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_check_solid"
+                app:tint="@color/warning" />
+
+            <TextView
+                android:id="@+id/TV_fullName_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/FULLNAME"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TV_fullName_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/TV_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/EMAIL"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TV_email_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/TV_document_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/DOCUMENT"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ET_document_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/TV_company_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/COMPANY"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ET_company_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/TV_job_title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/POSITION"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ET_job_title_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/TV_externalId_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/EXTERNAL_ID"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ET_externalId_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text=""
+                android:textColor="@color/white_600"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/BT_checkIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@color/pink"
+                android:padding="0dp"
+                android:text="@string/CHECK_IN"
+                android:visibility="gone"></androidx.appcompat.widget.AppCompatButton>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/BT_pdf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@color/pink"
+                android:padding="0dp"
+                android:text="@string/PDF"
+                android:visibility="gone"></androidx.appcompat.widget.AppCompatButton>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

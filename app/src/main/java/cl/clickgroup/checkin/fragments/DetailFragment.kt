@@ -18,6 +18,7 @@ import cl.clickgroup.checkin.data.repositories.PersonRepository
 import cl.clickgroup.checkin.utils.CheckInUtils
 import cl.clickgroup.checkin.utils.PdfGeneratorUtils
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
+import cl.clickgroup.checkin.utils.SunmiPrinterHelper
 
 class DetailFragment : Fragment() {
 
@@ -34,6 +35,9 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        SunmiPrinterHelper.initPrinterService(requireContext())
+
         checkInBySearch = SharedPreferencesUtils.getDataBoolean(requireContext(), "extraOption")
         arguments?.let {
             personId = it.getInt("person_id")

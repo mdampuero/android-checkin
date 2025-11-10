@@ -1,12 +1,14 @@
 package cl.clickgroup.checkin.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
 import cl.clickgroup.checkin.fragments.CheckInFragment
 import cl.clickgroup.checkin.fragments.ScanFragment
 import cl.clickgroup.checkin.fragments.SettingFragment
+import cl.clickgroup.checkin.utils.SunmiPrinterHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         needSync = intent.getBooleanExtra("needSync", false)
