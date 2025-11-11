@@ -22,12 +22,17 @@ import cl.clickgroup.checkin.activities.FormPerson
 import cl.clickgroup.checkin.adapters.PersonAdapter
 import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
+import cl.clickgroup.checkin.network.AuthCredentials
 import cl.clickgroup.checkin.network.RetrofitClient
 import cl.clickgroup.checkin.network.requests.CheckInByRegistrantIDsRequest
+import cl.clickgroup.checkin.network.requests.LoginRequest
 import cl.clickgroup.checkin.network.responses.IntegrationsRegistrantsResponse
+import cl.clickgroup.checkin.network.responses.LoginResponse
 import cl.clickgroup.checkin.network.responses.Person
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 
@@ -152,12 +157,54 @@ class CheckInFragment : Fragment() {
     fun fetchData() {
         progressBar.visibility = View.VISIBLE
         progressText.visibility = View.VISIBLE
+
+        val loginCall = RetrofitClient.apiService.login(
+            LoginRequest(AuthCredentials.EMAIL, AuthCredentials.PASSWORD)
+        )
+
+        loginCall.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                if (!response.isSuccessful) {
+                    handleLoginError()
+                    return
+                }
+
+                val token = response.body()?.token
+                if (token.isNullOrEmpty()) {
+                    handleLoginError()
+                    return
+                }
+
+                SharedPreferencesUtils.saveSingleData(
+                    requireContext(),
+                    AuthCredentials.TOKEN_KEY,
+                    token
+                )
+
+                requestRegistrants("Bearer $token")
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.d("CheckInFragment", "Authentication failed: ${t.message}")
+                handleLoginError()
+                t.printStackTrace()
+            }
+        })
+    }
+
+    private fun requestRegistrants(authorizationHeader: String) {
         val integrationId = SharedPreferencesUtils.getData(requireContext(), "integration_id")
         val sessionID = SharedPreferencesUtils.getData(requireContext(), "session_id")
         val registrantIDs = personRepository.getAllExternalIdsWhereScannedIsApp()
         val results = personRepository.getAllExternalIdsAndRequestScannedIsApp()
-        val call = RetrofitClient.apiService.getRegistrant(integrationId.toString(),sessionID.toString(), CheckInByRegistrantIDsRequest(registrantIDs, results))
-        call.enqueue(object : retrofit2.Callback<IntegrationsRegistrantsResponse> {
+        val call = RetrofitClient.apiService.getRegistrant(
+            authorizationHeader,
+            integrationId.toString(),
+            sessionID.toString(),
+            CheckInByRegistrantIDsRequest(registrantIDs, results)
+        )
+
+        call.enqueue(object : Callback<IntegrationsRegistrantsResponse> {
             override fun onResponse(
                 call: Call<IntegrationsRegistrantsResponse>,
                 response: Response<IntegrationsRegistrantsResponse>
@@ -195,6 +242,15 @@ class CheckInFragment : Fragment() {
                 )
             }
         })
+    }
+
+    private fun handleLoginError() {
+        progressBar.visibility = View.GONE
+        progressText.visibility = View.GONE
+        ToastUtils.showCenteredToast(
+            requireContext(),
+            requireContext().getString(R.string.SERVICE_FAIL)
+        )
     }
 
 
