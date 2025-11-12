@@ -168,57 +168,6 @@ class ApiServiceTest {
             fail("Network error: ${e.message}")
         }
     }
-    @Test
-    fun testCheckinsByRegistrantFailString() {
-        val sessionId = "zzzzzzz"
-        val registrantId = "zzzzzz"
-        val call: Call<CheckInByRegistrantResponse> =
-            apiService.checkInByRegistrant(CheckInByRegistrantRequest(sessionId, registrantId))
-
-        try {
-            val response: Response<CheckInByRegistrantResponse> = call.execute()
-            val errorBody = response.errorBody()?.string()
-
-            assertEquals("Status code should be 400", 400, response.code())
-            assertNotNull("Error body should not be null", errorBody)
-
-            val gson = Gson()
-            val type = object : TypeToken<CheckInByRegistrantResponse>() {}.type
-            val sessionsPostResponse: CheckInByRegistrantResponse? = gson.fromJson(errorBody, type)
-
-            assertNotNull("Deserialized error body should not be null", sessionsPostResponse)
-            assertFalse("Result should be false", sessionsPostResponse?.result == true)
-
-        } catch (e: IOException) {
-            fail("Network error: ${e.message}")
-        }
-    }
-
-    @Test
-    fun testCheckinsByRegistrantFailNumber() {
-        val sessionId = "1"
-        val registrantId = "1"
-        val call: Call<CheckInByRegistrantResponse> =
-            apiService.checkInByRegistrant(CheckInByRegistrantRequest(sessionId, registrantId))
-
-        try {
-            val response: Response<CheckInByRegistrantResponse> = call.execute()
-            val errorBody = response.errorBody()?.string()
-
-            assertEquals("Status code should be 404", 404, response.code())
-            assertNotNull("Error body should not be null", errorBody)
-
-            val gson = Gson()
-            val type = object : TypeToken<CheckInByRegistrantResponse>() {}.type
-            val sessionsPostResponse: CheckInByRegistrantResponse? = gson.fromJson(errorBody, type)
-
-            assertNotNull("Deserialized error body should not be null", sessionsPostResponse)
-            assertFalse("Result should be false", sessionsPostResponse?.result == true)
-
-        } catch (e: IOException) {
-            fail("Network error: ${e.message}")
-        }
-    }
 
     @Test
     fun testCheckinsByRutFailRutEmpty() {

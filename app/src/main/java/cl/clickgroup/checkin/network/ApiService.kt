@@ -51,11 +51,11 @@ interface ApiService {
         @Body input: ResponseRequest
     ): Call<Void>
 
-    @POST("registrants")
-    fun registrant(@Body input: RegistrantRequest): Call<RegistrantResponse>
-
-    @POST("eventSwoogos/sessions")
-    fun checkInByRegistrant(@Body input: CheckInByRegistrantRequest): Call<CheckInByRegistrantResponse>
+    @POST("clickgroup/registrants")
+    fun registrant(
+        @Header("Authorization") authorizationHeader: String,
+        @Body input: RegistrantRequest
+    ): Call<RegistrantResponse>
 
     @POST("clickgroup/integrationsRegistrant/{integrationID}/{sessionID}")
     fun getRegistrant(
