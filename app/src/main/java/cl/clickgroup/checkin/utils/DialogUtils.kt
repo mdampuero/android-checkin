@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
+import cl.clickgroup.checkin.network.AuthCredentials
 import cl.clickgroup.checkin.network.RetrofitClient.apiService
 import cl.clickgroup.checkin.network.requests.ResponseRequest
 import cl.clickgroup.checkin.network.responses.Person
@@ -117,7 +118,10 @@ object DialogUtils {
                 PersonRepository(context).updateResponseValue(person.id, requestResponse)
                 Log.d("DialogUtils", person.id.toString())
                 Log.d("DialogUtils", requestResponse)
+                val token = SharedPreferencesUtils.getData(context, AuthCredentials.TOKEN_KEY)
+                val authorizationHeader = token?.let { "Bearer $it" } ?: ""
                 val call: Call<Void> = apiService.sendRequest(
+                    authorizationHeader,
                     ResponseRequest(
                         integrationId,
                         requestField,

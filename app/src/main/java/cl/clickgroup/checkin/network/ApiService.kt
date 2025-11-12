@@ -45,8 +45,11 @@ interface ApiService {
         @Body input: CheckInByRutRequest
     ): Call<CheckInByRutResponse>
 
-    @POST("integrations/request")
-    fun sendRequest(@Body input: ResponseRequest): Call<Void>
+    @POST("clickgroup/integrations/request")
+    fun sendRequest(
+        @Header("Authorization") authorizationHeader: String,
+        @Body input: ResponseRequest
+    ): Call<Void>
 
     @POST("registrants")
     fun registrant(@Body input: RegistrantRequest): Call<RegistrantResponse>
