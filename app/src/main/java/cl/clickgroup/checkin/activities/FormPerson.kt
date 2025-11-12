@@ -83,14 +83,19 @@ class FormPerson : AppCompatActivity() {
             }
 
             progressBar.visibility = View.VISIBLE
-            val call = RetrofitClient.apiService.registrant(RegistrantRequest(
-                firstName,
-                lastName,
-                email,
-                company,
-                document,
-                job_title,
-                event_id = SharedPreferencesUtils.getData(applicationContext, "event_id") ))
+            val token = SharedPreferencesUtils.getData(applicationContext, "token") ?: ""
+            val call = RetrofitClient.apiService.registrant(
+                "Bearer $token",
+                RegistrantRequest(
+                    firstName,
+                    lastName,
+                    email,
+                    company,
+                    document,
+                    job_title,
+                    SharedPreferencesUtils.getData(applicationContext, "event_id")
+                )
+            )
             call.enqueue(object : Callback<RegistrantResponse> {
                 override fun onResponse(
                     call: Call<RegistrantResponse>,
