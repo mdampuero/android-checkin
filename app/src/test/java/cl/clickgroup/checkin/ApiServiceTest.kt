@@ -16,13 +16,14 @@ import java.io.IOException
 class ApiServiceTest {
 
     private val apiService = RetrofitClient.apiService
+    private val authorizationHeader = ""
 
     @Test
     fun testCheckinsPostSessionIdNotEmpty() {
         val sessionId = ""
         val rut = "3403231-9"
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
@@ -48,7 +49,7 @@ class ApiServiceTest {
         val sessionId = "abcd"
         val rut = "3403231-9"
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
@@ -74,7 +75,7 @@ class ApiServiceTest {
         val sessionId = -2
         val rut = ""
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
@@ -100,7 +101,7 @@ class ApiServiceTest {
         val sessionId = -2
         val rut = "12345678-9"
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
@@ -126,7 +127,7 @@ class ApiServiceTest {
         val sessionId = -2
         val rut = "3403231-9"
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
@@ -152,7 +153,7 @@ class ApiServiceTest {
         val sessionId = 2042882
         val rut = "3403231-9"
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
         try {
             val response: Response<CheckInByRutResponse> = call.execute()
             val errorBody = response.errorBody()?.string()
@@ -224,7 +225,7 @@ class ApiServiceTest {
         val sessionId = "123456"
         val rut = ""
         val call: Call<CheckInByRutResponse> =
-            apiService.checkInByRut(CheckInByRutRequest(sessionId, rut))
+            apiService.checkInByRut(authorizationHeader, CheckInByRutRequest(sessionId, rut))
 
         try {
             val response: Response<CheckInByRutResponse> = call.execute()

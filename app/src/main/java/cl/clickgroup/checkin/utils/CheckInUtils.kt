@@ -4,6 +4,7 @@ import android.content.Context
 import cl.clickgroup.checkin.R.*
 import cl.clickgroup.checkin.data.repositories.PersonDB
 import cl.clickgroup.checkin.data.repositories.PersonRepository
+import cl.clickgroup.checkin.network.AuthCredentials
 import cl.clickgroup.checkin.network.RetrofitClient.apiService
 import cl.clickgroup.checkin.network.requests.CheckInByRutRequest
 import cl.clickgroup.checkin.network.responses.CheckInByRutResponse
@@ -80,7 +81,12 @@ object CheckInUtils {
         val personRepository = PersonRepository(context)
         val sessionID = SharedPreferencesUtils.getData(context, "session_id")
         val eventID = SharedPreferencesUtils.getData(context, "event_id")
-        val call: Call<CheckInByRutResponse> = apiService.checkInByRut(CheckInByRutRequest(eventID, sessionID, rut))
+        val token = SharedPreferencesUtils.getData(context, AuthCredentials.TOKEN_KEY)
+        val authorizationHeader = token?.let { "Bearer $it" } ?: ""
+        val call: Call<CheckInByRutResponse> = apiService.checkInByRut(
+            authorizationHeader,
+            CheckInByRutRequest(eventID, sessionID, rut)
+        )
         call.enqueue(object : retrofit2.Callback<CheckInByRutResponse> {
             override fun onResponse(
                 call: Call<CheckInByRutResponse>,
