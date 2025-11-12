@@ -51,10 +51,12 @@ interface ApiService {
     @POST("eventSwoogos/sessions")
     fun checkInByRegistrant(@Body input: CheckInByRegistrantRequest): Call<CheckInByRegistrantResponse>
 
-    @POST("checkins/byRegistrantIDs")
-    fun checkInByRegistrantIDs(@Body input: CheckInByRegistrantIDsRequest): Call<CheckInByRegistrantIDsResponse>
-
-    @POST("integrations/{integrationID}/registrants/{sessionID}")
-    fun getRegistrant(@Path("integrationID") integrationID: String, @Path("sessionID") sessionID: String, @Body input: CheckInByRegistrantIDsRequest): Call<IntegrationsRegistrantsResponse>
+    @POST("clickgroup/integrationsRegistrant/{integrationID}/{sessionID}")
+    fun getRegistrant(
+        @Header("Authorization") authorizationHeader: String,
+        @Path("integrationID") integrationID: String,
+        @Path("sessionID") sessionID: String,
+        @Body input: CheckInByRegistrantIDsRequest
+    ): Call<IntegrationsRegistrantsResponse>
 
 }
