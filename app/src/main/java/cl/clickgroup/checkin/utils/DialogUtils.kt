@@ -66,6 +66,21 @@ object DialogUtils {
         btnOK.setOnClickListener {
             dialog.dismiss()
             if (type == "success") {
+                val shouldPrint = SharedPreferencesUtils.getDataBoolean(context, "print")
+                val printFieldsJson = SharedPreferencesUtils.getData(context, "print_fields")
+
+                if (shouldPrint && !printFieldsJson.isNullOrEmpty() && person != null) {
+                    PdfGeneratorUtils.generatePersonPdf(
+                        context = context,
+                        person = person,
+                        printFieldsJson = printFieldsJson,
+                        onSuccess = {},
+                        onError = { message ->
+                            ToastUtils.showCenteredToast(context, message)
+                        }
+                    )
+                }
+
                 showRequestDialog(context, person)
             }
         }
