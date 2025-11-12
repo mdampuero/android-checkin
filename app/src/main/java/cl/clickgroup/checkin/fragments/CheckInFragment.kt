@@ -31,7 +31,6 @@ import cl.clickgroup.checkin.network.responses.LoginResponse
 import cl.clickgroup.checkin.network.responses.Person
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
-import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
