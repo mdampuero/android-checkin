@@ -23,6 +23,33 @@ import androidx.core.content.ContextCompat.getSystemService
 import cl.clickgroup.checkin.adapters.PdfDocumentAdapter
 
 object PdfGeneratorUtils {
+    private var useAlternateHeight = false
+
+    private fun wrapText(text: String, maxLength: Int): List<String> {
+        val lines = mutableListOf<String>()
+        if (text.isBlank()) return lines
+
+        val words = text.split(' ')
+        var currentLine = StringBuilder()
+
+        for (word in words) {
+            if (currentLine.isNotEmpty() && currentLine.length + word.length + 1 > maxLength) {
+                lines.add(currentLine.toString())
+                currentLine = StringBuilder(word)
+            } else {
+                if (currentLine.isNotEmpty()) {
+                    currentLine.append(' ')
+                }
+                currentLine.append(word)
+            }
+        }
+
+        if (currentLine.isNotEmpty()) {
+            lines.add(currentLine.toString())
+        }
+        return lines
+    }
+
     fun generatePersonPdf(
         context: Context,
         person: PersonDB?,
@@ -38,7 +65,8 @@ object PdfGeneratorUtils {
 
         // Dimensions for bitmap (adjusted for 58mm paper, ~384 pixels wide at 203dpi)
         val pageWidth = 384 // Adjust based on printer: 58mm paper, effective 48mm, 384 dots
-        val pageHeight = 300 // Dynamic height, can calculate based on content
+        val pageHeight = if (useAlternateHeight) 204 else 203 // Dynamic height, can calculate based on content
+        useAlternateHeight = !useAlternateHeight
 
         val bitmap = Bitmap.createBitmap(pageWidth, pageHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -50,19 +78,19 @@ object PdfGeneratorUtils {
             isAntiAlias = true
         }
 
-        var yText = 30f
-        val xText = 10f
+        var yText = 22f
+        val xText = 0f
         val xQr = pageWidth - 130f // QR on right, assuming qrSize=120
         val qrSize = 120
 
         // Mapeo de campos (same as before)
         val fieldMap = mapOf(
-            "fullname" to "${person?.first_name} ${person?.last_name}".trim(),
-            "email" to person?.email?.trim(),
-            "c_4392417" to person?.rut?.trim(),
-            "company" to person?.company?.trim(),
-            "job_title" to person?.job_title?.trim(),
-            "external_id" to person?.external_id?.toString()?.trim()
+            "fullname" to "${person?.first_name} ${person?.last_name}".trim().uppercase(),
+            "email" to person?.email?.trim()?.uppercase(),
+            "c_4392417" to person?.rut?.trim()?.uppercase(),
+            "company" to person?.company?.trim()?.uppercase(),
+            "job_title" to person?.job_title?.trim()?.uppercase(),
+            "external_id" to person?.external_id?.toString()?.trim()?.uppercase()
         )
 
         // Dibujar textos a la izquierda
@@ -71,12 +99,20 @@ object PdfGeneratorUtils {
                 val value = fieldMap[field.field]
                 if (!value.isNullOrBlank()) {
                     paint.textSize = when (field.style) {
-                        "big" -> 20f
-                        "small" -> 12f
-                        else -> 16f
+                        "big" -> 30f
+                        "small" -> 20f
+                        else -> 25f
                     }
-                    canvas.drawText(value, xText, yText, paint)
-                    yText += paint.textSize + 10f
+                    val lines = wrapText(value, 22)
+                    for (line in lines) {
+                        canvas.drawText(line, xText, yText, paint)
+                        yText += paint.textSize
+                    }
+
+                    if (lines.isNotEmpty()) {
+                        // After drawing all lines for a field, add a small margin before the next field
+                        yText += 10f
+                    }
                 }
             }
         }
