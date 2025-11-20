@@ -99,9 +99,9 @@ object PdfGeneratorUtils {
                 val value = fieldMap[field.field]
                 if (!value.isNullOrBlank()) {
                     paint.textSize = when (field.style) {
-                        "big" -> 30f
-                        "small" -> 20f
-                        else -> 25f
+                        "big" -> 35f
+                        "small" -> 25f
+                        else -> 30f
                     }
                     val lines = wrapText(value, 22)
                     for (line in lines) {
