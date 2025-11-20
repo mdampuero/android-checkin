@@ -11,6 +11,8 @@
 
     <queries>
         <package android:name="woyou.aidlservice.jiuiv5" />
+        <package android:name="com.sunmi.scanner" />
+        <package android:name="com.sunmi.sunmiqrcodescanner" />
     </queries>
 
     <application
@@ -40,12 +42,6 @@
         <activity
             android:name=".activities.BarcodeScanner"
             android:exported="false" />
-        <activity
-            android:name=".activities.ScanActivity"
-            android:exported="false"
-            android:screenOrientation="sensorPortrait"
-            android:stateNotNeeded="true"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.CodeEntryActivity"
             android:exported="true">

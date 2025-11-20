@@ -4,6 +4,8 @@ package cl.clickgroup.checkin.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,12 +23,11 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import cl.clickgroup.checkin.R
-import cl.clickgroup.checkin.activities.BarcodeScanner
-import cl.clickgroup.checkin.activities.ScanActivity
 import cl.clickgroup.checkin.utils.CheckInUtils
 import cl.clickgroup.checkin.utils.RutValidatorUtils
 import cl.clickgroup.checkin.utils.SharedPreferencesUtils
 import cl.clickgroup.checkin.utils.ToastUtils
+import java.util.HashMap
 
 class ScanFragment : Fragment() {
 
@@ -161,28 +162,34 @@ class ScanFragment : Fragment() {
          */
         val btQrScan = view.findViewById<ImageButton>(R.id.BT_qrScan)
         btQrScan.setOnClickListener {
-            val intent = Intent(requireActivity(), ScanActivity::class.java)
+            val intent = Intent("com.summi.scan")
+            // Check for modern Sunmi scanner app
+            if (hasScanner(requireContext())) {
+                intent.action = "com.sunmi.scanner.qrscanner"
+            }
+            intent.putExtra("PLAY_SOUND", true)
+            intent.putExtra("IS_SHOW_SETTING", false)
+            intent.putExtra("IS_SHOW_ALBUM", false)
+
             startActivityForResult(intent, SCAN_REQUEST_CODE)
         }
 
-        /**
-         * SCAN BARCODE
-         */
-        /*val btBarcodeScan = view.findViewById<Button>(R.id.BT_barcodeScan)
-        btBarcodeScan.setOnClickListener {
-            val intent = Intent(requireActivity(), BarcodeScanner::class.java)
-            startActivity(intent)
-            Log.d("ScanFragment", "ABRIR ACTIVITY")
-        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == SCAN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val scanResult = data?.getStringExtra("SCAN_RESULT")
-            if (scanResult != null) {
-                handleScanResult(scanResult)
+            val bundle = data?.extras
+            if (bundle != null) {
+                @Suppress("UNCHECKED_CAST")
+                val result = bundle.getSerializable("data") as? ArrayList<HashMap<String, Any>>
+                if (result != null && result.isNotEmpty()) {
+                    val scanResult = result[0]["VALUE"] as? String
+                    if (scanResult != null) {
+                        handleScanResult(scanResult)
+                    }
+                }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
             ToastUtils.showCenteredToast(
@@ -252,5 +259,44 @@ class ScanFragment : Fragment() {
     private fun hideKeyboard(context: Context, editText: EditText) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(editText.windowToken, 0)
+    }
+
+    // --- Sunmi Scanner Helper Functions ---
+    private fun getPackageInfo(context: Context, pkg: String): PackageInfo? {
+        return try {
+            context.packageManager.getPackageInfo(pkg, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun hasScanner(ctx: Context): Boolean {
+        val info = getPackageInfo(ctx, "com.sunmi.scanner")
+        return info != null && compareVer(info.versionName, "4.4.4", true, 3)
+    }
+
+    private fun compareVer(nVer: String, oVer: String, isEq: Boolean, bit: Int): Boolean {
+        if (nVer.isEmpty() || oVer.isEmpty()) return false
+        val nArr = nVer.split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val oArr = oVer.split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        if (nArr.size < bit || oArr.size < bit) return false
+        var vup = false
+        for (i in 0 until bit) {
+            val n = nArr[i].toInt()
+            val o = oArr[i].toInt()
+            if (n >= o) {
+                if (n > o) {
+                    vup = true
+                    break
+                } else if (isEq && i == bit - 1) {
+                    vup = true
+                    break
+                }
+            } else {
+                break
+            }
+        }
+        return vup
     }
 }
